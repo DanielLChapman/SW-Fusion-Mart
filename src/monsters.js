@@ -1,8 +1,8 @@
-export monsters = {
+export const monsters = {
 	jeanne: {
 		currentStars: 5,
 		neededStars: 5,
-		element: ''light'', 
+		element: 'light', 
 		highEle: 20,
 		midEle: 10,
 		lowEle: 0,
