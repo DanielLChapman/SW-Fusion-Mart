@@ -1,73 +1,39 @@
 import React from 'react';
 import { monsters } from '../monsters';
+import Header from './Header';
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export default class App extends React.Component {
 	constructor(props) {
-		super(props)
-		this.getTotal = this.getTotal.bind(this);
+		super(props);
+		this.state = {
+			monsters
+		};
+		this.returnImageForMonster = this.returnImageForMonster.bind(this);
 	};
 
-	getTotal () {
-		
-		let totalEleHigh = 0,
-			totalEleMid = 0,
-			totalEleLow = 0,
-			totalMagHigh = 0,
-			totalMagMid = 0,
-			totalMagLow = 0;
-
-		// eslint-disable-next-line
-		Object.keys(monsters).map( (e) => {
-			if (e === 'arang' || e === 'mikene' || e === 'akia' || e === 'lingling') {
-				totalMagLow += monsters[e].lowMagic;
-				totalMagMid  += monsters[e].midMagic;
-				totalMagHigh += monsters[e].highMagic;
-				totalEleLow += monsters[e].lowEle;
-				totalEleMid += monsters[e].midEle;
-				totalEleHigh += monsters[e].highEle;
-				// eslint-disable-next-line
-				monsters[e].requires.map((f) => {
-					totalMagLow += monsters[f].lowMagic;
-					totalMagMid  += monsters[f].midMagic;
-					totalMagHigh += monsters[f].highMagic;
-					totalEleLow += monsters[f].lowEle;
-					totalEleMid += monsters[f].midEle;
-					totalEleHigh += monsters[f].highEle;
-				})
-			}
-			totalMagLow += monsters[e].lowMagic;
-			totalMagMid  += monsters[e].midMagic;
-			totalMagHigh += monsters[e].highMagic;
-			totalEleLow += monsters[e].lowEle;
-			totalEleMid += monsters[e].midEle;
-			totalEleHigh += monsters[e].highEle;
-		});
-
-		return (
-			<ul>
-				Totals
-				<li>Total Magic Low : {totalMagLow}</li>
-				<li>Total Magic Mid : {totalMagMid}</li>
-				<li>Total Magic High : {totalMagHigh}</li>
-				<li>Total Elemental Low : {totalEleLow}</li>
-				<li>Total Elemental Mid : {totalEleMid}</li>
-				<li>Total Elemental High : {totalEleHigh}</li>
-			</ul>
-		)
+	returnImageForMonster = (key) => {
+		let unawakenedName = this.state.monsters[key].unawakenedName; 
+		unawakenedName = unawakenedName.split(' ').join('_');
+		unawakenedName+=`_(${capitalizeFirstLetter(this.state.monsters[key].element)})_Icon.png`;
+		return <img src={`../images/${unawakenedName}`} alt={key} />
 	}
 
+
 	render() {
+		console.log(monsters);
 		return (
 			<div> 
-			{
-				Object.keys(monsters).map((e) => {
-					return (
-						<h1 key={e}>Name: {e} + Low: {monsters[e].lowMagic}</h1>
+				<Header />
+				{
+					Object.keys(monsters).map((x) => {
+						return this.returnImageForMonster(x);
+					})
 
-					)
-				})
-			}
-			{this.getTotal()}
+				}
 			</div>
 		)
 	}
