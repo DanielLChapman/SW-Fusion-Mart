@@ -1,14 +1,9 @@
 import React from 'react';
 import { monsters } from '../monsters';
-import Monster from './Monster';
 import Header from './Header';
 import MiniCart from './MiniCart';
 
-export function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-export default class App extends React.Component {
+export default class Cart extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -74,34 +69,31 @@ export default class App extends React.Component {
 		this.setState({cart});
 	};
 
+	countCart = () => {
+		let total = 0;
+		Object.keys(this.state.cart).forEach( (e) => {
+			total += this.state.cart[e];
+		});
+		return total;
+	};
 
 	render() {
 		return (
-			<div>
-				<div className="mini-cart-display">
-					<MiniCart 
-					cart={this.state.cart} 
-					add={this.addToCart}
-					decrement={this.decrementFromCart}
-					remove={this.removeFromCart}
-					/>
-				</div> 
-				<Header 
-					displayInformation={true}/>
-				{
-					// eslint-disable-next-line
-					Object.keys(monsters).map((x) => {
-						if (this.state.monsters[x].currentStars >= 4) {
-							return <Monster 
-								monster={this.state.monsters[x]} 
-								key={x} 
-								index={x} 
-								add={this.addToCart} 
-								 />
-						}
-					})
-
-				}
+			<div className="cart-app-display"> 
+				<Header displayInformation={false} />
+				<div className="content">
+					<div className="cart-display">
+						<MiniCart 
+						cart={this.state.cart} 
+						add={this.addToCart}
+						decrement={this.decrementFromCart}
+						remove={this.removeFromCart}
+							/>
+					</div> 
+					<div className="cart-right-hand">
+						<h4>Total Amount {this.countCart()}</h4>
+					</div>
+				</div>
 			</div>
 		)
 	}
