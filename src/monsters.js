@@ -158,7 +158,7 @@ export const monsters = {
 	shakan: {
 		currentStars: 3,
 		neededStars: 5,
-		element: 'Wind', 
+		element: 'wind', 
 		highEle: 0,
 		midEle: 15,
 		lowEle: 10,
@@ -201,13 +201,13 @@ export const monsters = {
 	kumae: {
 		currentStars: 3,
 		neededStars: 5,
-		element: 'Fire', 
+		element: 'dark', 
 		highEle: 0,
-		midEle: 0,
-		lowEle: 20,
+		midEle: 1,
+		lowEle: 15,
 		highMagic: 0,
-		midMagic: 1,
-		lowMagic: 15,
+		midMagic: 0,
+		lowMagic: 20,
 		requires: [], 
 		unawakenedName: 'Yeti',
 		image: 'https://vignette.wikia.nocookie.net/summoners-war-sky-arena/images/4/4b/Yeti_%28Dark%29_Icon.png/revision/latest/scale-to-width-down/100?cb=20170509162156'
