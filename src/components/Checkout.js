@@ -8,7 +8,7 @@ export default class Cart extends React.Component {
 		this.state = {
 			monsters,
 			cart: {},
-			userTotal: {},
+			userSettings: {},
 			requiredMonsters: {},
 			ignore5Stars: false
 		};
@@ -16,13 +16,18 @@ export default class Cart extends React.Component {
 
 	componentDidMount() {
 		const cart = JSON.parse(localStorage.getItem('cart'));
-		let userTotal = JSON.parse(localStorage.getItem('userTotal'));
+		let userSettings = JSON.parse(localStorage.getItem('userSettings'));
 		let requiredMonsters = {};
+		if (!userSettings) {
+			userSettings = {};
+		}
+		console.log(userSettings);
 		//validation
 		Object.keys(cart).forEach( (e) => {
 			if (cart[e] <= 0) {
 				return delete cart[e];
 			} else {
+				//Add in user totals here for calculating if they already have the monster
 				if (monsters[e].currentStars <= 3) {
 					requiredMonsters[e] = requiredMonsters[e] + cart[e] || cart[e];
 					return delete cart[e];
@@ -34,13 +39,10 @@ export default class Cart extends React.Component {
 
 			}
 		});
-		if (!userTotal) {
-			userTotal = {};
-		}
 		//setting state
 		this.setState({
 			cart,
-			userTotal,
+			userSettings,
 			requiredMonsters
 		});
 	}
@@ -95,6 +97,7 @@ export default class Cart extends React.Component {
 			if (this.state.ignore5Stars && monsters[e].currentStars === 5) {
 				return;
 			}
+			//check in user total if the monster is already awakened and skip
 			let amount = dataToUse[e];
 			try {
 				totalEssences[monsters[e].element].low += monsters[e].lowEle * amount;

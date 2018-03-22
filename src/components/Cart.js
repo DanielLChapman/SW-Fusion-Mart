@@ -29,7 +29,9 @@ export default class Cart extends React.Component {
 		cart[key] = cart[key] + 1 || 1;
 		if (monsters[key].currentStars === 5) {
 			monsters[key].requires.forEach( (e) => {
-				cart[e] = cart[e] + 1 || 1;
+				if (monsters[e].currentStars > 3) {
+					cart[e] = cart[e] + 1 || 1;
+				}
 			});
 		}
 		localStorage.setItem('cart', JSON.stringify(cart));
