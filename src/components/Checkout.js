@@ -10,7 +10,8 @@ export default class Cart extends React.Component {
 			cart: {},
 			userSettings: {},
 			requiredMonsters: {},
-			ignore5Stars: false
+			ignore5Stars: false,
+			removedFromCart: {}
 		};
 	};
 
@@ -18,6 +19,7 @@ export default class Cart extends React.Component {
 		const cart = JSON.parse(localStorage.getItem('cart'));
 		let userSettings = JSON.parse(localStorage.getItem('userSettings'));
 		let requiredMonsters = {};
+		let removedFromCart = [];
 		if (!userSettings) {
 			userSettings = {};
 		}
@@ -29,12 +31,23 @@ export default class Cart extends React.Component {
 			} else {
 				//Add in user totals here for calculating if they already have the monster
 				if (monsters[e].currentStars <= 3) {
-					requiredMonsters[e] = requiredMonsters[e] + cart[e] || cart[e];
+					requiredMonsters[e] = requiredMonsters[e] + cart[e] - userSettings.three[e] || cart[e] - userSettings.three[e];
+					if (requiredMonsters[e] <= 0) {
+						delete requiredMonsters[e];
+					}
 					return delete cart[e];
 				} else if (monsters[e].currentStars === 4) {
-					monsters[e].requires.forEach((f) => {
-						requiredMonsters[f] = requiredMonsters[f] + cart[e] || cart[e];
-					})
+					let currentNeeded = cart[e] - userSettings.four[e];
+					removedFromCart[e] = userSettings.four[e];
+					if (currentNeeded > 0) {
+						cart[e] = currentNeeded;
+						monsters[e].requires.forEach((f) => {
+							requiredMonsters[f] = requiredMonsters[f] + currentNeeded || currentNeeded;
+						})
+					} else {
+						delete cart[e];
+					}
+
 				}
 
 			}
@@ -43,7 +56,8 @@ export default class Cart extends React.Component {
 		this.setState({
 			cart,
 			userSettings,
-			requiredMonsters
+			requiredMonsters,
+			removedFromCart
 		});
 	}
 
@@ -60,19 +74,24 @@ export default class Cart extends React.Component {
 	//List of Required Monsters
 	//List of Monsters in Cart above 4 stars that you are going to make
 
-	organizeEssenceData = (dataToUse) => {
+	organizeEssenceData = (dataToUse, fodder = true) => {
 		let totalEssences = {
+			magic: {
+				low: 0,
+				mid: 0,
+				high: 0
+			},
 			fire: {
 				low:0,
 				mid:0,
 				high:0
 			},
-			wind: {
+			water: {
 				low:0,
 				mid:0,
 				high:0
 			},
-			water: {
+			wind: {
 				low:0,
 				mid:0,
 				high:0
@@ -86,11 +105,6 @@ export default class Cart extends React.Component {
 				low:0,
 				mid:0,
 				high:0
-			},
-			magic: {
-				low: 0,
-				mid: 0,
-				high: 0
 			}
 		}
 		Object.keys(dataToUse).forEach((e) => {
@@ -110,6 +124,16 @@ export default class Cart extends React.Component {
 				console.log(`There was an error with unit ${e}, please let me know`);
 			}
 		});
+		if (fodder && Object.keys(this.state.userSettings).length > 0) {
+			Object.keys(totalEssences).forEach((e) => {
+				Object.keys(totalEssences[e]).forEach((f) => {
+					totalEssences[e][f] -= this.state.userSettings.essence[e][f]; 
+					if (totalEssences[e][f] < 0) {
+						totalEssences[e][f] = 0;
+					}
+				})
+			})
+		}
 		let rows = Object.keys(totalEssences).map((e) => {
 			return <tr key={e}>
 						<td style={{textTransform: 'capitalize'}}>{e}</td>
@@ -174,7 +198,7 @@ export default class Cart extends React.Component {
 		let totalEssences = this.organizeEssenceData(this.state.requiredMonsters);
 		let totalRequired = this.monstersTable(this.state.requiredMonsters);
 		let totalCart = this.monstersTable(this.state.cart);
-		let totalEssenceInCart = this.organizeEssenceData(this.state.cart);
+		let totalEssenceInCart = this.organizeEssenceData(this.state.cart, false);
 		return (
 			<div className="checkout-display"> 
 				<Header displayInformation={false} />
@@ -186,6 +210,18 @@ export default class Cart extends React.Component {
 					{totalEssences}
 					{totalRequired}
 					{totalCart}
+					<h6>The Following Units were removed from your cart as you have indicated you already own them.</h6>
+					<ul>
+					{
+						// eslint-disable-next-line
+						Object.keys(this.state.removedFromCart).map((e) => {
+							if (this.state.removedFromCart[e] > 0) {
+								return <li key={e}>{e}: {this.state.removedFromCart[e]}</li>;
+							}
+						})
+					}
+					</ul>
+
 					<button className="button" onClick={this.handleButton}>Ignore 5 stars in cart</button>
 					{totalEssenceInCart}
 				</div>

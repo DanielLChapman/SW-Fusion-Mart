@@ -14,17 +14,22 @@ export default class UserSettings extends React.Component {
 
 				},
 				'essence': {
+					magic: {
+						low: 0,
+						mid: 0,
+						high: 0
+					},
 					fire: {
 						low:0,
 						mid:0,
 						high:0
 					},
-					wind: {
+					water: {
 						low:0,
 						mid:0,
 						high:0
 					},
-					water: {
+					wind: {
 						low:0,
 						mid:0,
 						high:0
@@ -38,11 +43,6 @@ export default class UserSettings extends React.Component {
 						low:0,
 						mid:0,
 						high:0
-					},
-					magic: {
-						low: 0,
-						mid: 0,
-						high: 0
 					}
 				}
 			}
@@ -121,36 +121,36 @@ export default class UserSettings extends React.Component {
 			}
 		});
 		userSettings.essence = {
+			magic: {
+				low: 0,
+				mid: 0,
+				high: 0
+			},
 			fire: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					wind: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					water: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					light: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					dark: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					magic: {
-						low: 0,
-						mid: 0,
-						high: 0
-					}
+				low:0,
+				mid:0,
+				high:0
+			},
+			water: {
+				low:0,
+				mid:0,
+				high:0
+			},
+			wind: {
+				low:0,
+				mid:0,
+				high:0
+			},
+			light: {
+				low:0,
+				mid:0,
+				high:0
+			},
+			dark: {
+				low:0,
+				mid:0,
+				high:0
+			}
 		}
 		localStorage.setItem('userSettings', JSON.stringify(userSettings));
 		this.setState({
