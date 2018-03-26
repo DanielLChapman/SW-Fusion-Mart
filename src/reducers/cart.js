@@ -10,17 +10,19 @@ const cart = (state = {}, action) => {
 			Object.keys(cart).forEach( (e) => {
 				if (cart[e] <= 0) {
 					delete cart[e];
+				} else {
+					cart[e] = parseInt(cart[e], 10);
 				}
 			});
 			return {...cart};
 		case CART_NAMING.INCREMENT_IN_CART:
 			cart = state;
 			key = action.payload;
-			cart[key] = cart[key] + 1 || 1;
+			cart[key] = parseInt(cart[key], 10) + 1 || 1;
 			if (monsters[key].currentStars === 5) {
 				monsters[key].requires.forEach( (e) => {
 					if (monsters[e].currentStars > 3) {
-						cart[e] = cart[e] + 1 || 1;
+						cart[e] = parseInt(cart[e], 10) + 1 || 1;
 					}
 				});
 			}
@@ -29,10 +31,10 @@ const cart = (state = {}, action) => {
 		case CART_NAMING.DECREMENT_IN_CART:
 			cart = state;
 			key = action.payload;
-			cart[key] = cart[key] - 1 || 0;
+			cart[key] = parseInt(cart[key], 10) - 1 || 0;
 			if (monsters[key].currentStars === 5) {
 				monsters[key].requires.forEach( (e) => {
-					cart[e] = cart[e] - 1 || 0;
+					cart[e] = parseInt(cart[e], 10) - 1 || 0;
 					if (cart[e] <= 0) {
 						delete cart[e];
 					}
@@ -54,7 +56,7 @@ const cart = (state = {}, action) => {
 			key = action.payload;
 			if (monsters[key].currentStars === 5) {
 				monsters[key].requires.forEach( (e) => {
-					cart[e] = cart[e] - cart[key] || 0;
+					cart[e] = parseInt(cart[e], 10) - parseInt(cart[key], 10) || 0;
 					if (cart[e] <= 0) {
 						delete cart[e];
 					}

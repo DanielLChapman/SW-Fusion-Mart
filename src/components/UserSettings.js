@@ -231,7 +231,7 @@ class UserSettings extends React.Component {
 }
 
 UserSettings.propTypes = {
-	initializeUserSettings: PropTypes.object.isRequired,
+	initializeUserSettings: PropTypes.func.isRequired,
 	incrementSettings: PropTypes.func.isRequired,	
 	decrementSettings: PropTypes.func.isRequired,
 	setSettings: PropTypes.func.isRequired,

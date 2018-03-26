@@ -42,12 +42,12 @@ const userSettings = (state = {}, action) => {
 			type = action.payload.type;
 
 			if (type === 'unit' ) {
-				userSettings[identifier][name] -= 1;
+				userSettings[identifier][name] = parseInt(userSettings[identifier][name], 10)-1;
 				if (userSettings[identifier][name] < 0) {
 					userSettings[identifier][name] = 0
 				}
 			} else {
-				userSettings[type][name][identifier] -= 1;
+				userSettings[type][name][identifier] = parseInt(userSettings[type][name][identifier], 10)-1;
 				if (userSettings[type][name][identifier] < 0)  {
 					userSettings[type][name][identifier] = 0
 				}
@@ -62,9 +62,9 @@ const userSettings = (state = {}, action) => {
 			let value = action.payload.value;
 
 			if (type === 'unit' ) {
-				userSettings[identifier][name] = value;
+				userSettings[identifier][name] = parseInt(value, 10);
 			} else {
-				userSettings[type][name][identifier] = value;
+				userSettings[type][name][identifier] = parseInt(value, 10);
 			}
 
 			return {...userSettings};

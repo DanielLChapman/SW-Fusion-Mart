@@ -2,7 +2,11 @@ import React from 'react';
 import { monsters } from '../monsters';
 import Header from './Header';
 
-export default class Cart extends React.Component {
+import { } from '../actions/index';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
+class Checkout extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -16,6 +20,11 @@ export default class Cart extends React.Component {
 	};
 
 	componentDidMount() {
+		this.setState({
+			cart: this.props.cart,
+			userSettings: this.props.userSettings
+		});
+		/*
 		let cart = this.props.cart;
 		if (Object.keys(cart).length === 0) {
 			cart = JSON.parse(localStorage.getItem('cart'));
@@ -25,7 +34,7 @@ export default class Cart extends React.Component {
 
 		let requiredMonsters = {};
 		let removedFromCart = [];
-		
+
 		if (!userSettings) {
 			userSettings = {};
 		}
@@ -57,6 +66,8 @@ export default class Cart extends React.Component {
 
 			}
 		});
+		console.log(cart);
+		console.log(userSettings);
 		//setting state
 		this.setState({
 			cart,
@@ -64,13 +75,14 @@ export default class Cart extends React.Component {
 			requiredMonsters,
 			removedFromCart
 		});
+		*/
 	}
 
 	countCart = () => {
 		let total = 0; 
 		Object.keys(this.state.cart).forEach((e) => {
 			if (monsters[e].currentStars >= 4) {
-				total+=this.state.cart[e];
+				total+=parseInt(this.state.cart[e], 10);
 			};
 		});
 		return total;
@@ -204,6 +216,7 @@ export default class Cart extends React.Component {
 		let totalRequired = this.monstersTable(this.state.requiredMonsters);
 		let totalCart = this.monstersTable(this.state.cart);
 		let totalEssenceInCart = this.organizeEssenceData(this.state.cart, false);
+
 		return (
 			<div className="checkout-display"> 
 				<Header displayInformation={false} />
@@ -234,3 +247,17 @@ export default class Cart extends React.Component {
 		)
 	}
 };
+
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({}, dispatch);
+}
+
+function mapStateToProps(state) {
+	return {
+		cart: state.cart, 
+		userSettings: state.userSettings};
+}
+
+
+export default connect(mapStateToProps, null)(Checkout);
