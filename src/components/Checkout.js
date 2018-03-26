@@ -2,7 +2,7 @@ import React from 'react';
 import { monsters } from '../monsters';
 import Header from './Header';
 
-import { } from '../actions/index';
+import {initializeCart, initializeUserSettings } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -11,8 +11,6 @@ class Checkout extends React.Component {
 		super(props);
 		this.state = {
 			monsters,
-			cart: {},
-			userSettings: {},
 			requiredMonsters: {},
 			ignore5Stars: false,
 			removedFromCart: {}
@@ -20,24 +18,36 @@ class Checkout extends React.Component {
 	};
 
 	componentDidMount() {
-		this.setState({
-			cart: this.props.cart,
-			userSettings: this.props.userSettings
-		});
-		/*
-		let cart = this.props.cart;
+		this.configureInitialSettings(this.props);
+	}
+
+	componentDidUpdate() {
+		if (JSON.stringify(this.props.cart) !== JSON.stringify({}) &&
+			JSON.stringify(this.props.userSettings) !== JSON.stringify({})) {
+			this.generateRequiredInformation();		
+		}
+	}
+
+	configureInitialSettings = (propsToCheck) => {
+		let cart = propsToCheck.cart;
 		if (Object.keys(cart).length === 0) {
 			cart = JSON.parse(localStorage.getItem('cart'));
+			this.props.initializeCart(cart);
 		}
 
-		let userSettings = JSON.parse(localStorage.getItem('userSettings'));
+		let userSettings = propsToCheck.userSettings;
+		if (Object.keys(userSettings).length === 0) {
+			userSettings = JSON.parse(localStorage.getItem('userSettings'));
+			this.props.initializeUserSettings(userSettings);
+		}
+	}
 
+	generateRequiredInformation = () => {
+		let cart = this.props.cart;
+		let userSettings = this.props.userSettings;
 		let requiredMonsters = {};
 		let removedFromCart = [];
 
-		if (!userSettings) {
-			userSettings = {};
-		}
 		//validation
 		Object.keys(cart).forEach( (e) => {
 			if (cart[e] <= 0) {
@@ -66,23 +76,21 @@ class Checkout extends React.Component {
 
 			}
 		});
-		console.log(cart);
-		console.log(userSettings);
 		//setting state
-		this.setState({
-			cart,
-			userSettings,
-			requiredMonsters,
-			removedFromCart
-		});
-		*/
+		if (JSON.stringify(requiredMonsters) !== JSON.stringify(this.state.requiredMonsters) || 
+			JSON.stringify(removedFromCart) !== JSON.stringify(this.state.removedFromCart)) {
+				this.setState({
+					requiredMonsters,
+					removedFromCart
+				});
+		}
 	}
 
 	countCart = () => {
 		let total = 0; 
-		Object.keys(this.state.cart).forEach((e) => {
+		Object.keys(this.props.cart).forEach((e) => {
 			if (monsters[e].currentStars >= 4) {
-				total+=parseInt(this.state.cart[e], 10);
+				total+=parseInt(this.props.cart[e], 10);
 			};
 		});
 		return total;
@@ -141,10 +149,10 @@ class Checkout extends React.Component {
 				console.log(`There was an error with unit ${e}, please let me know`);
 			}
 		});
-		if (fodder && Object.keys(this.state.userSettings).length > 0) {
+		if (fodder && Object.keys(this.props.userSettings).length > 0) {
 			Object.keys(totalEssences).forEach((e) => {
 				Object.keys(totalEssences[e]).forEach((f) => {
-					totalEssences[e][f] -= this.state.userSettings.essence[e][f]; 
+					totalEssences[e][f] -= this.props.userSettings.essence[e][f]; 
 					if (totalEssences[e][f] < 0) {
 						totalEssences[e][f] = 0;
 					}
@@ -212,10 +220,11 @@ class Checkout extends React.Component {
 		})
 	}
 	render() {
+		//this.generateRequiredInformation();
 		let totalEssences = this.organizeEssenceData(this.state.requiredMonsters);
 		let totalRequired = this.monstersTable(this.state.requiredMonsters);
-		let totalCart = this.monstersTable(this.state.cart);
-		let totalEssenceInCart = this.organizeEssenceData(this.state.cart, false);
+		let totalCart = this.monstersTable(this.props.cart);
+		let totalEssenceInCart = this.organizeEssenceData(this.props.cart, false);
 
 		return (
 			<div className="checkout-display"> 
@@ -250,14 +259,15 @@ class Checkout extends React.Component {
 
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({}, dispatch);
+	return bindActionCreators({initializeUserSettings, initializeCart}, dispatch);
 }
 
 function mapStateToProps(state) {
 	return {
 		cart: state.cart, 
-		userSettings: state.userSettings};
+		userSettings: state.userSettings
+	};
 }
 
 
-export default connect(mapStateToProps, null)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

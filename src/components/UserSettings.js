@@ -14,42 +14,10 @@ class UserSettings extends React.Component {
 		this.state = {
 			userSettings: {
 				'four': {
-
 				},
 				'three': {
-
 				},
 				'essence': {
-					magic: {
-						low: 0,
-						mid: 0,
-						high: 0
-					},
-					fire: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					water: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					wind: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					light: {
-						low:0,
-						mid:0,
-						high:0
-					},
-					dark: {
-						low:0,
-						mid:0,
-						high:0
-					}
 				}
 			}
 		}
