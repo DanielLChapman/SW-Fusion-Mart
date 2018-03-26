@@ -16,14 +16,19 @@ export default class Cart extends React.Component {
 	};
 
 	componentDidMount() {
-		const cart = JSON.parse(localStorage.getItem('cart'));
+		let cart = this.props.cart;
+		if (Object.keys(cart).length === 0) {
+			cart = JSON.parse(localStorage.getItem('cart'));
+		}
+
 		let userSettings = JSON.parse(localStorage.getItem('userSettings'));
+
 		let requiredMonsters = {};
 		let removedFromCart = [];
+		
 		if (!userSettings) {
 			userSettings = {};
 		}
-		console.log(userSettings);
 		//validation
 		Object.keys(cart).forEach( (e) => {
 			if (cart[e] <= 0) {

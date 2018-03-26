@@ -3,78 +3,44 @@ import { monsters } from '../monsters';
 import Header from './Header';
 import MiniCart from './MiniCart';
 
-export default class Cart extends React.Component {
+import { incrementInCart, decrementInCart, initializeCart, removeFromCart, setInCart } from '../actions/index';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
+import PropTypes from "prop-types";
+
+class Cart extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			monsters,
-			cart: {}
+			monsters
 		};
 	};
 
 	componentDidMount() {
-		const cart = JSON.parse(localStorage.getItem('cart'));
-		Object.keys(cart).forEach( (e) => {
-			if (cart[e] <= 0) {
-				delete cart[e];
-			}
-		});
-		this.setState({
-			cart
-		});
+		if (Object.keys(this.props.cart).length === 0) {
+			const cart = JSON.parse(localStorage.getItem('cart'));
+			this.props.initializeCart(cart);
+		}
 	}
 
 	addToCart = key => {
-		const cart = {...this.state.cart};
-		cart[key] = cart[key] + 1 || 1;
-		if (monsters[key].currentStars === 5) {
-			monsters[key].requires.forEach( (e) => {
-				if (monsters[e].currentStars > 3) {
-					cart[e] = cart[e] + 1 || 1;
-				}
-			});
-		}
-		localStorage.setItem('cart', JSON.stringify(cart));
-		this.setState({cart});
+		this.props.incrementInCart(key);
 	};
 
 	decrementFromCart = key => {
-		const cart = {...this.state.cart};
-		cart[key] = cart[key] - 1 || 0;
-		if (monsters[key].currentStars === 5) {
-			monsters[key].requires.forEach( (e) => {
-				cart[e] = cart[e] - 1 || 0;
-				if (cart[e] <= 0) {
-					delete cart[e];
-				}
-			});
-		}
-		if (cart[key] <= 0) {
-			delete cart[key];
-		}
-		localStorage.setItem('cart', JSON.stringify(cart));
-		this.setState({cart});
+		this.props.decrementInCart(key);
 	};
 
 	removeFromCart = key => {
-		const cart = {...this.state.cart};
-		if (monsters[key].currentStars === 5) {
-			monsters[key].requires.forEach( (e) => {
-				cart[e] = cart[e] - cart[key] || 0;
-				if (cart[e] <= 0) {
-					delete cart[e];
-				}
-			});
-		}
-		delete cart[key];
-		localStorage.setItem('cart', JSON.stringify(cart));
-		this.setState({cart});
+		this.props.removeFromCart(key);
 	};
+
 
 	countCart = () => {
 		let total = 0;
-		Object.keys(this.state.cart).forEach( (e) => {
-			total += this.state.cart[e];
+		Object.keys(this.props.cart).forEach( (e) => {
+			total += this.props.cart[e];
 		});
 		return total;
 	};
@@ -86,7 +52,7 @@ export default class Cart extends React.Component {
 				<div className="content">
 					<div className="cart-display">
 						<MiniCart 
-						cart={this.state.cart} 
+						cart={this.props.cart} 
 						add={this.addToCart}
 						decrement={this.decrementFromCart}
 						remove={this.removeFromCart}
@@ -100,3 +66,23 @@ export default class Cart extends React.Component {
 		)
 	}
 };
+
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({incrementInCart, initializeCart, decrementInCart, removeFromCart, setInCart}, dispatch);
+}
+
+function mapStateToProps({cart}) {
+	return {cart};
+}
+
+Cart.propTypes = {
+	cart: PropTypes.object.isRequired,
+	incrementInCart: PropTypes.func.isRequired,	
+	decrementInCart: PropTypes.func.isRequired,
+	removeFromCart: PropTypes.func.isRequired,
+	setInCart: PropTypes.func.isRequired
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
