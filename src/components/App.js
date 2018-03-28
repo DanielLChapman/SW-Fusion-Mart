@@ -2,9 +2,8 @@ import React from 'react';
 import { monsters } from '../monsters';
 import Monster from './Monster';
 import Header from './Header';
-import MiniCart from './MiniCart';
 
-import { incrementInCart, decrementInCart, initializeCart, removeFromCart } from '../actions/index';
+import { initializeCart, incrementInCart } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -18,7 +17,8 @@ export class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			monsters
+			monsters,
+			cart: {}
 		};
 	};
 
@@ -32,26 +32,21 @@ export class App extends React.Component {
 		}
 	}
 
-	addToCart = key => {
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			cart: nextProps.cart
+		})
+	}
+
+	addToCart = (key) => {
 		this.props.incrementInCart(key);
-	};
-
-	decrementFromCart = key => {
-		this.props.decrementInCart(key);
-	};
-
-	removeFromCart = key => {
-		this.props.removeFromCart(key);
-	};
+	}
 
 
 	render() {
 		return (
 			<div>
 				<div className="mini-cart-display">
-					<MiniCart 
-						cart={this.props.cart}
-						/>
 				</div> 
 				<Header 
 					displayInformation={true}/>
@@ -75,7 +70,7 @@ export class App extends React.Component {
 };
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({incrementInCart, initializeCart, decrementInCart, removeFromCart}, dispatch);
+	return bindActionCreators({initializeCart, incrementInCart}, dispatch);
 }
 
 function mapStateToProps({cart}) {
@@ -85,9 +80,8 @@ function mapStateToProps({cart}) {
 
 App.propTypes = {
 	cart: PropTypes.object.isRequired,
-	incrementInCart: PropTypes.func.isRequired,	
-	decrementInCart: PropTypes.func.isRequired,
-	removeFromCart: PropTypes.func.isRequired
+	initializeCart: PropTypes.func.isRequired,
+	incrementInCart: PropTypes.func.isRequired
 };
 
 

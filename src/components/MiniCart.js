@@ -27,8 +27,19 @@ class MiniCart extends React.Component{
 
 	handleChange = (event, key) => {
 		this.props.setInCart(key, event.currentTarget.value)
-
 	}
+
+	addToCart = key => {
+		this.props.incrementInCart(key);
+	};
+
+	decrementFromCart = key => {
+		this.props.decrementInCart(key);
+	};
+
+	removeFromCart = key => {
+		this.props.removeFromCart(key);
+	};
 
 	renderingSortedCart = (cart) => {
 		sortedStars = [];
@@ -47,7 +58,7 @@ class MiniCart extends React.Component{
 				{e} Amount <input 
 								type="number"
 								onChange={(event) => {this.handleChange(event, e)}}
-								value={this.state.cart[e]}
+								value={this.props.cart[e]}
 								/>
 
 				<span className="increment" onClick={() => {this.props.incrementInCart(e)}}> +1 </span>
@@ -61,7 +72,7 @@ class MiniCart extends React.Component{
 			<div className="mini-cart">
 				<ul>
 				{	
-					this.renderingSortedCart(this.state.cart)
+					this.renderingSortedCart(this.props.cart)
 				}
 				</ul>
 				<Link to="/cart" className="view-cart-button">
@@ -84,9 +95,14 @@ MiniCart.propTypes = {
 	setInCart: PropTypes.func.isRequired
 };
 
+
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({incrementInCart, decrementInCart, removeFromCart, setInCart}, dispatch);
 }
 
+function mapStateToProps({cart}) {
+	return {cart};
+}
 
-export default connect(null, mapDispatchToProps)(MiniCart);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniCart);

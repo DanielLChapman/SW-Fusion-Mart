@@ -1,5 +1,7 @@
 import React, {Fragment} from 'react';
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
+import MiniCart from './MiniCart';
 
 class Header extends React.Component {
 	render() {
@@ -25,7 +27,14 @@ class Header extends React.Component {
 				</h1>
 				{tagInfo}
 				<nav>
+					<Link to="/">
+						Home
+					</Link>
+					<Link to="/cart">
+						Cart
+					</Link>
 				</nav>
+				<MiniCart />
 			</header>
 		);
 	}

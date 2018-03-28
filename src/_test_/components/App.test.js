@@ -15,7 +15,8 @@ function setup() {
 		cart: {},
 		incrementInCart: jest.fn(),
 		decrementInCart: jest.fn(),
-		removeFromCart: jest.fn()
+		removeFromCart: jest.fn(),
+		initializeCart: jest.fn()
 	}
 
 	const enzymeWrapper = mount(
@@ -49,9 +50,5 @@ describe('App Component', () => {
 		const {enzymeWrapper, wrapper} = setup();
 		expect(wrapper.find('Monster')['length']).toBe(16);
 	});
-	it('Contains a Mini Cart', () => {
-		const {enzymeWrapper, wrapper} = setup();
-		expect(wrapper.find('Connect(MiniCart)')['length']).toBe(1);
-	})
 }) 
 

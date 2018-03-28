@@ -5,8 +5,7 @@ import { shallow, mount } from 'enzyme';
 
 
 
-function setup(boolToUse) {
-
+function setup(boolToUse = true) {
 	const wrapper = shallow(<Header displayInformation={boolToUse}/>);
 	//console.log(wrapper.find('Header').dive().debug());
 
@@ -32,5 +31,9 @@ describe('Header Component', () => {
 		const {wrapper} = setup(true);
 		expect(wrapper.find('nav').length).toBe(1);
 	});
+	it('Contains a Mini Cart', () => {
+		const {enzymeWrapper, wrapper} = setup();
+		expect(wrapper.find('Connect(MiniCart)')['length']).toBe(1);
+	})
 }) 
 
