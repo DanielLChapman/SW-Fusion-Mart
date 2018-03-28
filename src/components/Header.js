@@ -24,6 +24,8 @@ class Header extends React.Component {
 					Summoners War Fusion Mart
 				</h1>
 				{tagInfo}
+				<nav>
+				</nav>
 			</header>
 		);
 	}

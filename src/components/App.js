@@ -14,7 +14,7 @@ export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-class App extends React.Component {
+export class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -23,9 +23,12 @@ class App extends React.Component {
 	};
 
 	componentWillMount() {
-		if (Object.keys(this.props.cart).length === 0) {
-			const cart = JSON.parse(localStorage.getItem('cart'));
-			this.props.initializeCart(cart);
+		try {
+			if (Object.keys(this.props.cart).length === 0) {
+				const cart = JSON.parse(localStorage.getItem('cart'));
+				this.props.initializeCart(cart);
+			}
+		} catch (err) {
 		}
 	}
 
@@ -47,7 +50,7 @@ class App extends React.Component {
 			<div>
 				<div className="mini-cart-display">
 					<MiniCart 
-						cart={this.props.cart} 
+						cart={this.props.cart}
 						/>
 				</div> 
 				<Header 
