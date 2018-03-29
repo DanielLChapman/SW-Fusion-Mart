@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 
 import PropTypes from "prop-types";
 
-class Cart extends React.Component {
+export class Cart extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,10 +18,13 @@ class Cart extends React.Component {
 	};
 
 	componentDidMount() {
-		if (Object.keys(this.props.cart).length === 0) {
-			const cart = JSON.parse(localStorage.getItem('cart'));
-			this.props.initializeCart(cart);
-		}
+		try {
+			if (Object.keys(this.props.cart).length === 0) {
+				const cart = JSON.parse(localStorage.getItem('cart'));
+				this.props.initializeCart(cart);
+			}
+		} catch (err) {
+		}	
 	}
 
 	addToCart = key => {
@@ -52,10 +55,6 @@ class Cart extends React.Component {
 				<div className="content">
 					<div className="cart-display">
 						<MiniCart 
-						cart={this.props.cart} 
-						add={this.addToCart}
-						decrement={this.decrementFromCart}
-						remove={this.removeFromCart}
 							/>
 					</div> 
 					<div className="cart-right-hand">

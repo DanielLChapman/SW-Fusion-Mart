@@ -6,7 +6,9 @@ import {initializeCart, initializeUserSettings } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-class Checkout extends React.Component {
+import PropTypes from "prop-types";
+
+export class Checkout extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,16 +31,20 @@ class Checkout extends React.Component {
 	}
 
 	configureInitialSettings = (propsToCheck) => {
-		let cart = propsToCheck.cart;
-		if (Object.keys(cart).length === 0) {
-			cart = JSON.parse(localStorage.getItem('cart'));
-			this.props.initializeCart(cart);
-		}
+		try {
+			let cart = propsToCheck.cart;
+			if (Object.keys(cart).length === 0) {
+				cart = JSON.parse(localStorage.getItem('cart'));
+				this.props.initializeCart(cart);
+			}
 
-		let userSettings = propsToCheck.userSettings;
-		if (Object.keys(userSettings).length === 0) {
-			userSettings = JSON.parse(localStorage.getItem('userSettings'));
-			this.props.initializeUserSettings(userSettings);
+			let userSettings = propsToCheck.userSettings;
+			if (Object.keys(userSettings).length === 0) {
+				userSettings = JSON.parse(localStorage.getItem('userSettings'));
+				this.props.initializeUserSettings(userSettings);
+			}
+		} catch(err) {
+
 		}
 	}
 
@@ -95,6 +101,8 @@ class Checkout extends React.Component {
 		});
 		return total;
 	}
+
+
 	//Total Amount of Each Essence Needed to fuse, does not include the essence for those in cart
 	//List of Required Monsters
 	//List of Monsters in Cart above 4 stars that you are going to make
@@ -230,7 +238,7 @@ class Checkout extends React.Component {
 			<div className="checkout-display"> 
 				<Header displayInformation={false} />
 				<div className="content">
-					<div className="checkout-display" style={{width: '400px', margin: '0 auto'}}>
+					<div className="checkout-inner-display" style={{width: '400px', margin: '0 auto'}}>
 						<h4>To make the {this.countCart()} units in your cart, you need the following monsters:</h4>
 						<h6 style={{color: 'rgba(0,0,0,.4)'}}>Please note, the 4 stars in your cart may be used in making any 5 stars. What is listed below is everything required to make sure you can make everything.</h6>
 					</div>
@@ -258,6 +266,8 @@ class Checkout extends React.Component {
 };
 
 
+
+
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({initializeUserSettings, initializeCart}, dispatch);
 }
@@ -269,5 +279,11 @@ function mapStateToProps(state) {
 	};
 }
 
+Checkout.propTypes = {
+	cart: PropTypes.object.isRequired,
+	userSettings: PropTypes.object.isRequired,
+	initializeUserSettings: PropTypes.func.isRequired,
+	initializeCart: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

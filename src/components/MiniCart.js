@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 let sortedStars = [];
 
 
-class MiniCart extends React.Component{
+export class MiniCart extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {

@@ -13,7 +13,7 @@ const Monster = props => (
 
   <div className="monster">
   	<h4>{props.monster.unawakenedName}</h4>
-  	<h5>{capitalizeFirstLetter(props.monster.element)}</h5>
+  	<h4>{capitalizeFirstLetter(props.monster.element)}</h4>
   	{returnImageForMonster(props.monster)}
  	<button className="button" onClick={() => {props.add(props.index)}}></button>
   </div>

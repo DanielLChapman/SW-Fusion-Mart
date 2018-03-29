@@ -8,7 +8,7 @@ import { initializeUserSettings, decrementSettings, incrementSettings, setSettin
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-class UserSettings extends React.Component {
+export class UserSettings extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -24,11 +24,15 @@ class UserSettings extends React.Component {
 	};
 
 	componentDidMount() {
-		let userSettings = JSON.parse(localStorage.getItem('userSettings'));
-		if (userSettings == null || Object.keys(userSettings.four).length === 0) {
-			return this.props.initializeUserSettings(this.state.userSettings);
-		} 
-		return this.props.initializeUserSettings(userSettings);
+		try {
+			let userSettings = JSON.parse(localStorage.getItem('userSettings'));
+			if (userSettings == null || Object.keys(userSettings.four).length === 0) {
+				return this.props.initializeUserSettings(this.state.userSettings);
+			} 
+			return this.props.initializeUserSettings(userSettings);
+		} catch (err) {
+
+		}
 		//initializing user settings
 	};
 
@@ -62,8 +66,8 @@ class UserSettings extends React.Component {
 		return (
 			<div>
 				<Header displayInformation={false} />
-				<button className="button" onClick={() => {if(window.confirm('Are you sure you wish to reset? You will still have to save your new resetted data, this just clears the fields.')) {this.reset()}}}>RESET</button>
-				<button className="button" onClick={() => {if(window.confirm('Are you sure you wish to save? This will override your current saved data if it exists.')) {this.save()}}}>SAVE</button>
+				<button className="button reset-button" onClick={() => {if(window.confirm('Are you sure you wish to reset? You will still have to save your new resetted data, this just clears the fields.')) {this.reset()}}}>RESET</button>
+				<button className="button save-button" onClick={() => {if(window.confirm('Are you sure you wish to save? This will override your current saved data if it exists.')) {this.save()}}}>SAVE</button>
 				<h3>Update this information so we can tell you accurately what you need to fuse your selections. </h3>
 				<section className="user-settings-display">
 					<div className="four-star-selection">
@@ -199,6 +203,7 @@ class UserSettings extends React.Component {
 }
 
 UserSettings.propTypes = {
+	userSettings: PropTypes.object.isRequired,
 	initializeUserSettings: PropTypes.func.isRequired,
 	incrementSettings: PropTypes.func.isRequired,	
 	decrementSettings: PropTypes.func.isRequired,
