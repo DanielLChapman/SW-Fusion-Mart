@@ -46,11 +46,11 @@ export class MiniCart extends React.Component{
 		Object.keys(cart).map( (e) => {
 			if (monsters[e].currentStars === 5) {
 				sortedStars.unshift(e);
-			} else {
+			} else if (monsters[e].currentStars === 4) {
 				sortedStars.push(e)
+			} else {
+				return e;
 			}
-			return e;
-			
 		});
 
 		return sortedStars.map( (e) => {
@@ -59,6 +59,7 @@ export class MiniCart extends React.Component{
 								type="number"
 								onChange={(event) => {this.handleChange(event, e)}}
 								value={this.props.cart[e]}
+								className="cart-input"
 								/>
 
 				<span className="increment" onClick={() => {this.props.incrementInCart(e)}}> +1 </span>

@@ -1,5 +1,6 @@
 import {SETTING_NAMING} from '../actions/index';
 import { monsters } from '../monsters';
+import {generateDefaultUserSettings} from '../_test_/UserSettingExample';
 
 const userSettings = (state = {}, action) => {
 	let userSettings = null,
@@ -11,46 +12,8 @@ const userSettings = (state = {}, action) => {
 		case SETTING_NAMING.INITIALIZE_SETTINGS:
 			userSettings = action.payload;
 			if (Object.keys(userSettings).length === 0 || Object.keys(userSettings.four).length === 0 ) {
-				userSettings = {
-					'four': {
+				userSettings = generateDefaultUserSettings();
 
-					},
-					'three': {
-
-					},
-					'essence': {
-						magic: {
-							low: 0,
-							mid: 0,
-							high: 0
-						},
-						fire: {
-							low:0,
-							mid:0,
-							high:0
-						},
-						water: {
-							low:0,
-							mid:0,
-							high:0
-						},
-						wind: {
-							low:0,
-							mid:0,
-							high:0
-						},
-						light: {
-							low:0,
-							mid:0,
-							high:0
-						},
-						dark: {
-							low:0,
-							mid:0,
-							high:0
-						}
-					}
-				}
 				Object.keys(monsters).forEach((e) => {
 					if (monsters[e].currentStars === 4) {
 						userSettings['four'][e] = 0;
@@ -66,6 +29,7 @@ const userSettings = (state = {}, action) => {
 			identifier = action.payload.identifier;
 			name = action.payload.name;
 			type = action.payload.type;
+			console.log(action.payload);
 
 			if (type === 'unit' ) {
 				userSettings[identifier][name] = parseInt(userSettings[identifier][name], 10)+1;
@@ -108,46 +72,7 @@ const userSettings = (state = {}, action) => {
 
 			return {...userSettings};
 		case SETTING_NAMING.RESET_SETTINGS:
-			userSettings = state;
-			Object.keys(monsters).forEach((e) => {
-				if (monsters[e].currentStars === 4) {
-					userSettings['four'][e] = 0;
-				} else if (monsters[e].currentStars <= 3) {
-					userSettings['three'][e] = 0;
-				}
-			});
-			userSettings.essence = {
-				magic: {
-					low: 0,
-					mid: 0,
-					high: 0
-				},
-				fire: {
-					low:0,
-					mid:0,
-					high:0
-				},
-				water: {
-					low:0,
-					mid:0,
-					high:0
-				},
-				wind: {
-					low:0,
-					mid:0,
-					high:0
-				},
-				light: {
-					low:0,
-					mid:0,
-					high:0
-				},
-				dark: {
-					low:0,
-					mid:0,
-					high:0
-				}
-			}
+			userSettings = generateDefaultUserSettings();
 			return {...userSettings};
 		case SETTING_NAMING.SAVE_SETTINGS:
 			userSettings = state;
@@ -185,7 +110,8 @@ const userSettings = (state = {}, action) => {
 
 			return {...userSettings};
 		default: 
-			return state;
+			userSettings = generateDefaultUserSettings();
+			return {...userSettings};
 	}
 }
 

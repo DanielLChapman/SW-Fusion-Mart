@@ -33,18 +33,19 @@ export class Checkout extends React.Component {
 	configureInitialSettings = (propsToCheck) => {
 		try {
 			let cart = propsToCheck.cart;
-			if (Object.keys(cart).length === 0) {
+			if (JSON.stringify(cart) === JSON.stringify({}) ) {
 				cart = JSON.parse(localStorage.getItem('cart'));
 				this.props.initializeCart(cart);
 			}
 
 			let userSettings = propsToCheck.userSettings;
-			if (Object.keys(userSettings).length === 0) {
+			if ( JSON.stringify(userSettings) === JSON.stringify({}) ) {
 				userSettings = JSON.parse(localStorage.getItem('userSettings'));
 				this.props.initializeUserSettings(userSettings);
 			}
+			this.generateRequiredInformation();	
 		} catch(err) {
-
+			//cart was empty, need better handling here;
 		}
 	}
 
@@ -107,7 +108,7 @@ export class Checkout extends React.Component {
 	//List of Required Monsters
 	//List of Monsters in Cart above 4 stars that you are going to make
 
-	organizeEssenceData = (dataToUse, fodder = true) => {
+	organizeEssenceData = (dataToUse, tableClassName, fodder = true) => {
 		let totalEssences = {
 			magic: {
 				low: 0,
@@ -176,7 +177,7 @@ export class Checkout extends React.Component {
 					</tr>
 		});
 		let jsx = (
-			<table>
+			<table className={tableClassName}>
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -193,7 +194,7 @@ export class Checkout extends React.Component {
 		return jsx;
 	};
 
-	monstersTable = (dataToUse) => {
+	monstersTable = (dataToUse, tableClassName) => {
 		let rows = Object.keys(dataToUse).map((e) => {
 			return <tr key={e}>
 						<td style={{textTransform: 'capitalize'}}>{monsters[e].element}</td>
@@ -204,7 +205,7 @@ export class Checkout extends React.Component {
 					</tr>
 		});
 		let jsx = (
-			<table>
+			<table className={tableClassName}>
 				<thead>
 					<tr>
 						<th>Element</th>
@@ -229,21 +230,25 @@ export class Checkout extends React.Component {
 	}
 	render() {
 		//this.generateRequiredInformation();
-		let totalEssences = this.organizeEssenceData(this.state.requiredMonsters);
-		let totalRequired = this.monstersTable(this.state.requiredMonsters);
-		let totalCart = this.monstersTable(this.props.cart);
-		let totalEssenceInCart = this.organizeEssenceData(this.props.cart, false);
+		let totalEssences = this.organizeEssenceData(this.state.requiredMonsters, 'required-essence');
+		let totalRequired = this.monstersTable(this.state.requiredMonsters, 'required-units');
+		let totalCart = this.monstersTable(this.props.cart, 'cart-units');
+		let totalEssenceInCart = this.organizeEssenceData(this.props.cart, 'cart-essence', false);
 
 		return (
 			<div className="checkout-display"> 
 				<Header displayInformation={false} />
 				<div className="content">
 					<div className="checkout-inner-display" style={{width: '400px', margin: '0 auto'}}>
-						<h4>To make the {this.countCart()} units in your cart, you need the following monsters:</h4>
-						<h6 style={{color: 'rgba(0,0,0,.4)'}}>Please note, the 4 stars in your cart may be used in making any 5 stars. What is listed below is everything required to make sure you can make everything.</h6>
+						<h4>To make the <span className="countOfCart">{this.countCart()}</span> units in your cart, you need the following units:</h4>
+						<h6 style={{color: 'rgba(0,0,0,.4)'}}>Please note, the 4 stars in your cart may be used in making any 5 stars. What is listed below is everything required to make sure you can make everything that is currently in your cart. </h6>
+						<h6 style={{color: 'rgba(0,0,0,.4)'}}>Dont forget that we added 4 star units to your cart to account for any 5 stars. If you removed them, they wont be applied here.</h6>
 					</div>
+					<h4 className="table-title">Total Essences For the Required Units</h4>
 					{totalEssences}
+					<h4 className="table-title">The Required Units</h4>
 					{totalRequired}
+					<h4 className="table-title">This is what was in your cart you were trying to make</h4>
 					{totalCart}
 					<h6>The Following Units were removed from your cart as you have indicated you already own them.</h6>
 					<ul>
@@ -258,6 +263,7 @@ export class Checkout extends React.Component {
 					</ul>
 
 					<button className="button" onClick={this.handleButton}>Ignore 5 stars in cart</button>
+					<h4 className="table-title">Here is what you need to awaken your cart</h4>
 					{totalEssenceInCart}
 				</div>
 			</div>

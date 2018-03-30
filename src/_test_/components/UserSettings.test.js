@@ -8,6 +8,8 @@ import { BrowserRouter, Route, Switch, MemoryRouter } from "react-router-dom";
 import rootReducer from '../../reducers';
 import toJson from 'enzyme-to-json';
 
+import {generateDefaultUserSettings} from '../UserSettingExample';
+
 const store = createStore(rootReducer)
 
 var props, enzymeWrapper, wrapper;
@@ -59,5 +61,60 @@ describe('Checkout Component', () => {
 	});
 
 
-}) 
+});
+
+describe('User Settings with actual data', () => {
+	beforeEach(function() {
+		props = {
+			userSettings: generateDefaultUserSettings(),
+			initializeUserSettings: jest.fn(),
+			incrementSettings: jest.fn(),
+			decrementSettings: jest.fn(),
+			setSettings: jest.fn(),
+			resetSettings: jest.fn(),
+			saveSettings: jest.fn()
+		}
+
+		enzymeWrapper = mount(
+			<Provider store={store}>
+				<MemoryRouter initialEntries={['/']} >
+					<UserSettings {...props}/>
+				</MemoryRouter>
+			</Provider>
+		);
+
+		wrapper = shallow(<UserSettings {...props} store={store} />);
+
+	});
+	it ('expects that the tables contain the correct data', () => {
+		//7 essences (6 + header)
+		expect(wrapper.find('.essence-table').first().find('tr').length).toBe(7);
+		//11 4 stars + header = 12
+		expect(wrapper.find('.four-star-table').first().find('tr').length).toBe(12);
+		//49 2 and 3 stars + header
+		expect(wrapper.find('.three-star-table').first().find('tr').length).toBe(50);
+	});
+	it('expects that the - + and set functions work', () => {
+		wrapper.find('.incrementFour').first().simulate('click');
+		expect(props.incrementSettings).toBeCalled();
+		wrapper.find('.incrementThree').first().simulate('click');
+		expect(props.incrementSettings).toBeCalled();
+		wrapper.find('.incrementEssence').first().simulate('click');
+		expect(props.incrementSettings).toBeCalled();
+
+		wrapper.find('.decrementFour').first().simulate('click');
+		expect(props.incrementSettings).toBeCalled();
+		wrapper.find('.decrementThree').first().simulate('click');
+		expect(props.incrementSettings).toBeCalled();
+		wrapper.find('.decrementEssence').first().simulate('click');
+		expect(props.incrementSettings).toBeCalled();
+
+		wrapper.find('.inputThree').first().simulate('change', {currentTarget: {value: '2'}});
+		expect(props.setSettings).toBeCalled();
+		wrapper.find('.inputFour').first().simulate('change', {currentTarget: {value: '2'}});
+		expect(props.setSettings).toBeCalled();
+		wrapper.find('.inputEssence').first().simulate('change', {currentTarget: {value: '2'}});
+		expect(props.setSettings).toBeCalled();
+	})
+});
 

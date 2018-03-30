@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch, MemoryRouter } from "react-router-dom";
 import rootReducer from '../../reducers';
 import toJson from 'enzyme-to-json';
 
+
 const store = createStore(rootReducer)
 
 var props, enzymeWrapper, wrapper;
@@ -51,5 +52,5 @@ describe('Cart Component', () => {
 		expect(wrapper.find('.cart-display').length).toBe(1);
 	});
 
-}) 
+});
 

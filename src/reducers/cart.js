@@ -48,7 +48,18 @@ const cart = (state = {}, action) => {
 		case CART_NAMING.SET_IN_CART:
 			cart = state;
 			key = action.payload.key;
-			cart[key] = action.payload['value'];
+			let value = action.payload['value'];
+			if (action.payload['value'] !== "" || !isNaN(value)) {
+				value = parseInt(action.payload['value'], 10);
+			} 
+			cart[key] = value;
+			if (monsters[key].currentStars === 5 && typeof value === 'number' && !isNaN(value)) {
+				monsters[key].requires.forEach( (e) => {
+					if (monsters[e].currentStars > 3) {
+						cart[e] = value;
+					}
+				});
+			}
 			localStorage.setItem('cart', JSON.stringify(cart));
 			return {...cart};
 		case CART_NAMING.REMOVE_FROM_CART:

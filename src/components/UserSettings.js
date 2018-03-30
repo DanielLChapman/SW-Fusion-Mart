@@ -8,6 +8,8 @@ import { initializeUserSettings, decrementSettings, incrementSettings, setSettin
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+import {generateDefaultUserSettings} from '../_test_/UserSettingExample';
+
 export class UserSettings extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,17 +25,16 @@ export class UserSettings extends React.Component {
 		}
 	};
 
-	componentDidMount() {
+	componentWillMount() {
 		try {
 			let userSettings = JSON.parse(localStorage.getItem('userSettings'));
 			if (userSettings == null || Object.keys(userSettings.four).length === 0) {
 				return this.props.initializeUserSettings(this.state.userSettings);
 			} 
-			return this.props.initializeUserSettings(userSettings);
+			this.props.initializeUserSettings(userSettings);
 		} catch (err) {
-
+			console.log(err);
 		}
-		//initializing user settings
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -63,6 +64,10 @@ export class UserSettings extends React.Component {
 	}
 
 	render() {
+		let data = this.props.userSettings;
+		if(JSON.stringify(data) === JSON.stringify({})) {
+			data = generateDefaultUserSettings();
+		}
 		return (
 			<div>
 				<Header displayInformation={false} />
@@ -72,7 +77,7 @@ export class UserSettings extends React.Component {
 				<section className="user-settings-display">
 					<div className="four-star-selection">
 						<h4>Which 4 Stars Do You Have</h4>
-						<table>
+						<table className="four-star-table">
 							<thead>
 								<tr>
 									<th>Element</th>
@@ -83,21 +88,22 @@ export class UserSettings extends React.Component {
 							</thead>
 							<tbody>
 								{
-									Object.keys(this.state.userSettings.four).map((e) => {
+									Object.keys(data['four']).map((e) => {
 										return (<tr key={e}>
 											<td style={{textTransform: 'capitalize'}}>{monsters[e].element}</td>
 											<td style={{textTransform: 'capitalize'}}>{monsters[e].unawakenedName}</td>
 											<td>{e}</td>
 											<td>
-												<span onClick={() => {this.decrement('four', e)}}>-</span> 
+												<span className="decrement decrementFour" onClick={() => {this.decrement('four', e)}}>-</span> 
 													 <input
 												          type="number"
 												          name="test"
 												          min="0"
 												          onChange={(y) => {this.handleChange(y, 'four', e)}}
-												          value={this.state.userSettings.four[e]}
+												          value={data['four'][e]}
+												          className="inputFour"
 												        />
-												<span onClick={() => {this.incremenet('four', e)}}>+</span></td>
+												<span className="increment incrementFour" onClick={() => {this.incremenet('four', e)}}>+</span></td>
 										</tr>)
 									})
 								}
@@ -106,7 +112,7 @@ export class UserSettings extends React.Component {
 					</div>
 					<div className="three-star-selection">
 						<h4>Which 2 or 3 Stars Do You Have</h4>
-						<table>
+						<table  className="three-star-table">
 							<thead>
 								<tr>
 									<th>Element</th>
@@ -117,21 +123,22 @@ export class UserSettings extends React.Component {
 							</thead>
 							<tbody>
 								{
-									Object.keys(this.state.userSettings.three).map((e) => {
+									Object.keys(data['three']).map((e) => {
 										return (<tr key={e}>
 											<td style={{textTransform: 'capitalize'}}>{monsters[e].element}</td>
 											<td style={{textTransform: 'capitalize'}}>{monsters[e].unawakenedName}</td>
 											<td>{e}</td>
 											<td>
-												<span onClick={() => {this.decrement('three', e)}}>-</span>
+												<span className="decrement decrementThree" onClick={() => {this.decrement('three', e)}}>-</span>
 													<input
 												          type="number"
 												          name="test"
 												          min="0"
 												          onChange={(y) => {this.handleChange(y, 'three', e)}}
-												          value={this.state.userSettings.three[e]}
+												          value={data['three'][e]}
+												          className="inputThree"
 												        />
-												<span onClick={() => {this.incremenet('three', e)}}>+</span>
+												<span className="increment incrementThree"  onClick={() => {this.incremenet('three', e)}}>+</span>
 											</td>
 										</tr>)
 									})
@@ -141,7 +148,7 @@ export class UserSettings extends React.Component {
 					</div>
 					<div className="essence-selection">
 						<h4>How Much Essence Do You Have</h4>
-						<table>
+						<table  className="essence-table">
 							<thead>
 								<tr>
 									<th>Element</th>
@@ -152,41 +159,44 @@ export class UserSettings extends React.Component {
 							</thead>
 							<tbody>
 								{
-									Object.keys(this.state.userSettings.essence).map((e) => {
+									Object.keys(data['essence']).map((e) => {
 										return (<tr key={e}>
 											<td style={{textTransform: 'capitalize'}}>{e}</td>
 											<td>
-												<span onClick={() => {this.decrement('low', e, 'essence')}}>-</span> 
+												<span className="decrement decrementEssence" onClick={() => {this.decrement('low', e, 'essence')}}>-</span> 
 													<input
 												          type="number"
 												          name="test"
 												          min="0"
 												          onChange={(y) => {this.handleChange(y, 'low', e, 'essence')}}
-												          value={this.state.userSettings.essence[e].low}
+												          value={data['essence'][e].low}
+												          className="inputEssence"
 												        />
-												<span onClick={() => {this.incremenet('low', e, 'essence')}}>+</span>
+												<span className="increment incrementEssence" onClick={() => {this.incremenet('low', e, 'essence')}}>+</span>
 											</td>
 											<td>
-												<span onClick={() => {this.decrement('mid', e, 'essence')}}>-</span> 
+												<span className="decrement decrementEssence" onClick={() => {this.decrement('mid', e, 'essence')}}>-</span> 
 													<input
 												          type="number"
 												          name="test"
 												          min="0"
 												          onChange={(y) => {this.handleChange(y, 'mid', e, 'essence')}}
-												          value={this.state.userSettings.essence[e].mid}
+												          value={data['essence'][e].mid}
+												          className="inputEssence"
 												        />
-												<span onClick={() => {this.incremenet('mid', e, 'essence')}}>+</span>
+												<span className="increment incrementEssence" onClick={() => {this.incremenet('mid', e, 'essence')}}>+</span>
 											</td>
 											<td>
-												<span onClick={() => {this.decrement('high', e, 'essence')}}>-</span> 
+												<span className="decrement decrementEssence" onClick={() => {this.decrement('high', e, 'essence')}}>-</span> 
 													<input
 												          type="number"
 												          name="test"
 												          min="0"
 												          onChange={(y) => {this.handleChange(y, 'high', e, 'essence')}}
-												          value={this.state.userSettings.essence[e].high}
+												          value={data['essence'][e].high}
+												          className="inputEssence"
 												        />
-												<span onClick={() => {this.incremenet('high', e, 'essence')}}>+</span>
+												<span className="increment incrementEssence" onClick={() => {this.incremenet('high', e, 'essence')}}>+</span>
 											</td>
 										</tr>)
 									})
