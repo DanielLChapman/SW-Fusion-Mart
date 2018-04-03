@@ -33,8 +33,8 @@ describe('Not Found Component', () => {
 	it("Does expects a div with className Monster", () => {
 		expect(wrapper.find('.monster').length).toBe(1);
 	});
-	it("Does expects to find two h4s", () => {
-		expect(wrapper.find('h4').length).toBe(2);
+	it("Does expects to find two spans", () => {
+		expect(wrapper.find('.monster-text-span').length).toBe(2);
 	});
 	it("Does expects an img", () => {
 		expect(wrapper.find('img').length).toBe(1);

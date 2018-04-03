@@ -43,13 +43,17 @@ describe('App Component', () => {
 		const {enzymeWrapper, wrapper} = setup();
 		expect(wrapper.find('Header')['length']).toBe(1);
 	});
-	it('Header component should have a tag line on App', () => {
+	it('Header component should have a information section on App', () => {
 		const {enzymeWrapper, wrapper} = setup();
-		expect(enzymeWrapper.find('.tagline').length).toBe(1);
+		expect(enzymeWrapper.find('.information').length).toBe(1);
 	})
 	it('Contains 16 monsters', () => {
 		const {enzymeWrapper, wrapper} = setup();
 		expect(wrapper.find('Monster')['length']).toBe(16);
+	});
+	it('Contains a ul', () => {
+		const {enzymeWrapper, wrapper} = setup();
+		expect(wrapper.find('ul')['length']).toBe(1);
 	});
 }) 
 

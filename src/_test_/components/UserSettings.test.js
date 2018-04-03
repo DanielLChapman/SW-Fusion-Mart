@@ -56,6 +56,9 @@ describe('Checkout Component', () => {
 	it ('does have instruction setting in h3', () => {
 		expect(wrapper.find('h3').length).toBe(1);
 	});
+	it ('does have instruction setting in h2', () => {
+		expect(wrapper.find('h3').length).toBe(3);
+	});
 	it ('does have 3 tables', () => {
 		expect(wrapper.find('table').length).toBe(3);
 	});

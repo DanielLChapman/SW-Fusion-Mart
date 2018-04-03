@@ -29,7 +29,6 @@ const userSettings = (state = {}, action) => {
 			identifier = action.payload.identifier;
 			name = action.payload.name;
 			type = action.payload.type;
-			console.log(action.payload);
 
 			if (type === 'unit' ) {
 				userSettings[identifier][name] = parseInt(userSettings[identifier][name], 10)+1;

@@ -12,10 +12,16 @@ const returnImageForMonster = (monster) => {
 const Monster = props => (
 
   <div className="monster">
-  	<h4>{props.monster.unawakenedName}</h4>
-  	<h4>{capitalizeFirstLetter(props.monster.element)}</h4>
-  	{returnImageForMonster(props.monster)}
- 	<button className="button" onClick={() => {props.add(props.index)}}></button>
+ 	{returnImageForMonster(props.monster)}
+ 	<section className="monster-text">
+ 		<span className="monster-text-span">{capitalizeFirstLetter(props.monster.element)}</span><br />
+  		<span className="monster-text-span">{props.monster.unawakenedName}</span>
+  	</section>
+  	<section className="monster-add">
+ 		<button className="button monster-add-button" onClick={() => {props.add(props.index)}}>
+ 			<i className="fas fa-plus"></i>
+ 		</button>
+ 	</section>
   </div>
 );
 

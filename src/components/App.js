@@ -13,6 +13,8 @@ export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+let openCart = false;
+
 export class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -39,6 +41,7 @@ export class App extends React.Component {
 	}
 
 	addToCart = (key) => {
+		openCart = true;
 		this.props.incrementInCart(key);
 	}
 
@@ -46,24 +49,27 @@ export class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className="mini-cart-display">
-				</div> 
 				<Header 
-					displayInformation={true}/>
-				{
-					// eslint-disable-next-line
-					Object.keys(monsters).map((x) => {
-						if (this.state.monsters[x].currentStars >= 4) {
-							return <Monster 
-									monster={this.state.monsters[x]} 
-									key={x} 
-									index={x} 
-									add={this.addToCart} 
-									 />
-						}
-					})
+					displayInformation={true}
+					openCart={openCart} />
+				<div className="main-monster-display">
+					<ul>
+						{
+							// eslint-disable-next-line
+							Object.keys(monsters).map((x) => {
+								if (this.state.monsters[x].currentStars >= 4) {
+									return <li key={x}><Monster 
+											monster={this.state.monsters[x]} 
+											key={x} 
+											index={x} 
+											add={this.addToCart} 
+											 /></li>
+								}
+							})
 
-				}
+						}
+					</ul>
+				</div>
 			</div>
 		)
 	}

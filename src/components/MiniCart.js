@@ -43,7 +43,7 @@ export class MiniCart extends React.Component{
 
 	renderingSortedCart = (cart) => {
 		sortedStars = [];
-		Object.keys(cart).map( (e) => {
+		Object.keys(cart).forEach( (e) => {
 			if (monsters[e].currentStars === 5) {
 				sortedStars.unshift(e);
 			} else if (monsters[e].currentStars === 4) {
@@ -82,6 +82,7 @@ export class MiniCart extends React.Component{
 				<Link to="/checkout">
 					<button className="button-link">Checkout</button>
 				</Link>
+				
 			</div>
 		);
 	}

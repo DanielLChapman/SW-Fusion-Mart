@@ -161,12 +161,17 @@ input::-moz-focus-inner {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Raleway");
 html {
   font-size: 62.5%;
 }
 body {
-  background: #d4d4d4;
+  background: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Raleway', sans-serif;
@@ -193,4 +198,184 @@ h2 {
 }
 h3 {
   font-size: 3rem;
+}
+h4 {
+  font-size: 1em;
+}
+.centered-text {
+  text-align: center !important;
+}
+body,
+html {
+  position: absolute;
+  min-height: 100%;
+  height: 100vh;
+  width: 100%;
+}
+html {
+  overflow-y: hidden;
+}
+body {
+  overflow-y: auto;
+}
+nav {
+  width: 155px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #f7f7f7;
+}
+.main-monster-display {
+  width: calc(100% - 455px);
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  top: 15px;
+  text-align: center;
+}
+.main-monster-display ul li {
+  display: inline-block;
+  width: 250px;
+}
+.mini-cart-display {
+  width: 300px;
+  height: 100%;
+  -webkit-box-shadow: 0 0 5px #000;
+          box-shadow: 0 0 5px #000;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: #fff;
+  -webkit-transition: 1s;
+  transition: 1s;
+  z-index: 5;
+}
+.mini-cart-display ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mini-cart-display ul li {
+  margin: 0;
+  padding: 0;
+}
+.mini-cart-display .mini-cart {
+  padding: 8px;
+  height: calc(100vh - 77px);
+  overflow-y: auto;
+}
+.hide-cart {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #000;
+  border-top: 1px solid #fff;
+  height: 75px;
+  position: relative;
+  top: 50%;
+}
+.to-open-mini-cart {
+  position: fixed;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  border: 1px solid #000;
+  padding: 20px 50px 20px 50px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #2dc22d;
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+.monster {
+  width: 24%;
+  min-width: 225px;
+  border: 1px solid #fff;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.monster img {
+  width: 100px;
+  height: auto;
+  position: relative;
+}
+.monster .monster-text {
+  float: left;
+  width: 130px;
+  font-size: 0.6em;
+}
+.monster .monster-add-button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: #2dc22d;
+  right: 15px;
+  position: relative;
+}
+.monster .monster-add-button:active {
+  background: rgba(0,0,0,0.05) !important;
+  top: 2px;
+}
+.settings-page,
+.cart-app-display {
+  width: calc(100% - 455px);
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 100px;
+}
+.settings-page h3,
+.cart-app-display h3 {
+  font-size: 1.7rem;
+  text-align: center;
+  width: 100%;
+  padding-top: 15px;
+}
+.settings-page h4,
+.cart-app-display h4 {
+  font-size: 1.5rem;
+}
+.settings-page h2,
+.cart-app-display h2 {
+  padding: 15px 0px 15px 0px;
+}
+.settings-page table,
+.cart-app-display table {
+  padding: 8px;
+  border-collapse: collapse;
+  width: 650px;
+  margin: 0 auto;
+}
+.settings-page table th,
+.cart-app-display table th,
+.settings-page table td,
+.cart-app-display table td {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.settings-page table th,
+.cart-app-display table th {
+  padding: 12px;
+  background-color: #90ee90;
+}
+.settings-page table td,
+.cart-app-display table td {
+  padding: 8px 8px 8px 12px;
+}
+.settings-page table input,
+.cart-app-display table input {
+  width: 70px;
+  padding-left: 10px;
+  margin: 0px 10px 0px 10px;
+  text-align: center;
+}
+.settings-page .settings-button,
+.cart-app-display .settings-button {
+  position: relative;
+  height: 50px;
+  min-width: 85px;
+  width: auto;
+  background: #fff;
+  border: 1px solid #000;
+  border-top: 1px solid transparent;
 }
