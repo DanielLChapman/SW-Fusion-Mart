@@ -4,7 +4,7 @@ import Header from './Header';
 
 import PropTypes from "prop-types";
 
-import { initializeUserSettings, decrementSettings, incrementSettings, setSettings, resetSettings, saveSettings } from '../actions/index';
+import { decrementSettings, incrementSettings, setSettings, resetSettings, saveSettings } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -26,15 +26,6 @@ export class UserSettings extends React.Component {
 	};
 
 	componentWillMount() {
-		try {
-			let userSettings = JSON.parse(localStorage.getItem('userSettings'));
-			if (userSettings == null || Object.keys(userSettings.four).length === 0) {
-				return this.props.initializeUserSettings(this.state.userSettings);
-			} 
-			this.props.initializeUserSettings(userSettings);
-		} catch (err) {
-			console.log(err);
-		}
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -65,9 +56,11 @@ export class UserSettings extends React.Component {
 
 	render() {
 		let data = this.props.userSettings;
-		if(JSON.stringify(data) === JSON.stringify({})) {
+
+		if(!data || JSON.stringify(data) === JSON.stringify({})) {
 			data = generateDefaultUserSettings();
 		}
+
 		return (
 			<div className="settings-page">
 				<Header displayInformation={false} />
@@ -214,7 +207,6 @@ export class UserSettings extends React.Component {
 
 UserSettings.propTypes = {
 	userSettings: PropTypes.object.isRequired,
-	initializeUserSettings: PropTypes.func.isRequired,
 	incrementSettings: PropTypes.func.isRequired,	
 	decrementSettings: PropTypes.func.isRequired,
 	setSettings: PropTypes.func.isRequired,
@@ -223,7 +215,7 @@ UserSettings.propTypes = {
 };
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({initializeUserSettings, decrementSettings, incrementSettings, setSettings, resetSettings, saveSettings}, dispatch);
+	return bindActionCreators({decrementSettings, incrementSettings, setSettings, resetSettings, saveSettings}, dispatch);
 }
 
 function mapStateToProps({userSettings}) {

@@ -75,13 +75,15 @@ class Header extends React.Component {
 						</li>
 					</ul>
 				</nav>
-				<div className="mini-cart-display" style={this.state.miniCartDisplay}>
-					<button className="hide-cart" onClick={() => {this.alterMiniCart('hide')}}> &gt; &gt; &gt; </button>
-					<MiniCart />
-				</div>
-				<div className="to-open-mini-cart"  onClick={() => {this.alterMiniCart('show')}}>
-					<i className="fas fa-shopping-cart"></i>
-				</div>
+				<section className="cart-section">
+					<div className="mini-cart-display" style={this.state.miniCartDisplay}>
+						<button className="hide-cart" onClick={() => {this.alterMiniCart('hide')}}> &gt; &gt; &gt; </button>
+						<MiniCart />
+					</div>
+					<div className="to-open-mini-cart"  onClick={() => {this.alterMiniCart('show')}}>
+						<i className="fas fa-shopping-cart"></i>
+					</div>
+				</section>
 			</header>
 		);
 	}

@@ -43,7 +43,7 @@ describe('Cart Component', () => {
 		expect(wrapper.find('Connect(MiniCart)').length).toBe(1);
 	});
 	it('does contain a Total Amount ', () => {
-		expect(wrapper.find('h4').length).toBe(1);
+		expect(wrapper.find('h3').length).toBe(1);
 	});
 	it('does contain a cart-right-hand ', () => {
 		expect(wrapper.find('.cart-right-hand').length).toBe(1);
@@ -51,6 +51,7 @@ describe('Cart Component', () => {
 	it('does contain a cart-display ', () => {
 		expect(wrapper.find('.cart-display').length).toBe(1);
 	});
+	
 
 });
 

@@ -54,35 +54,44 @@ export class MiniCart extends React.Component{
 		});
 
 		return sortedStars.map( (e) => {
-			return <li key={e}>
-				{e} Amount <input 
+			return <tr key={e}>
+						<td>{e}</td>
+						<td className="mini-cart-td"><span className="decrement" onClick={() => {this.props.decrementInCart(e)}}> <i className="fas fa-minus"></i> </span>
+							<input 
 								type="number"
 								onChange={(event) => {this.handleChange(event, e)}}
 								value={this.props.cart[e]}
 								className="cart-input"
 								/>
-
-				<span className="increment" onClick={() => {this.props.incrementInCart(e)}}> +1 </span>
-				<span className="decrement" onClick={() => {this.props.decrementInCart(e)}}> -1 </span>
-				<span className="remove" onClick={() => {this.props.removeFromCart(e)}}> X </span>
-			</li>
+							<span className="increment" onClick={() => {this.props.incrementInCart(e)}}> <i className="fas fa-plus"></i> </span>
+							<span className="remove" onClick={() => {this.props.removeFromCart(e)}}> <i className="fas fa-times"></i> </span>
+						</td>
+					</tr>
 		})
 	};
 	render() {
 		return (
 			<div className="mini-cart">
-				<ul>
-				{	
-					this.renderingSortedCart(this.props.cart)
-				}
-				</ul>
+				<table className="cart-table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th className="centered-text">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						{	
+							this.renderingSortedCart(this.props.cart)
+						}
+					</tbody>
+				</table>
 				<Link to="/cart" className="view-cart-button">
-					<button className="button-link">View Cart</button>
+					<button className="button-link button-link-1">View Cart</button>
 				</Link>
 				<Link to="/checkout">
-					<button className="button-link">Checkout</button>
+					<button className="button-link button-link-2">Checkout</button>
 				</Link>
-				
+
 			</div>
 		);
 	}

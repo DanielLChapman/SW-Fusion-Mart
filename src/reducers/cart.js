@@ -77,7 +77,13 @@ const cart = (state = {}, action) => {
 			localStorage.setItem('cart', JSON.stringify(cart));
 			return {...cart};
 		default: 
-			return state;
+			cart = localStorage.getItem('cart');
+			if (!cart || JSON.stringify({}) === cart) {
+				cart = {};
+			} else {
+				cart = JSON.parse(cart);
+			}
+			return {...cart};
 	}
 }
 

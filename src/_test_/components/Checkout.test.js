@@ -92,13 +92,13 @@ describe('User Settings with Data', () => {
 		const cartEssence = wrapper.find('.cart-essence').first().find('tr').find('td').map(column => column.text());
 		expect(cartEssence[2]).toBe("20");
 
-		expect(wrapper.find('.required-units').first().find('tr').length).toBe(5);
+		expect(wrapper.find('.required-units').first().find('tr').length).toBe(6);
 		const requiredUnits = wrapper.find('.required-units').first().find('tr').find('td').map(column => column.text());
-		expect(requiredUnits[2]).toBe("shailoq");
+		expect(requiredUnits[2]).toBe("loren");
 
 		expect(wrapper.find('.required-essence').first().find('tr').length).toBe(7);
 		const requiredEssence = wrapper.find('.required-essence').first().find('tr').find('td').map(column => column.text());
-		expect(requiredEssence[2]).toBe("30");
+		expect(requiredEssence[2]).toBe("40");
 	});
 
 	it('does change the data if userSettings are changed', () => {
@@ -111,6 +111,6 @@ describe('User Settings with Data', () => {
 		//And required units should be removed;
 		expect(newCart).toBe(currentCart);
 		expect(newWrapper.find('li').length).toBe(1);
-		expect(newWrapper.find('.required-units').first().find('tr').length).toBe(1);
+		expect(newWrapper.find('.required-units').first().find('tr').length).toBe(2);
 	});
 })

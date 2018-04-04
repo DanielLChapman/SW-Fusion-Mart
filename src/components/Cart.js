@@ -3,11 +3,13 @@ import { monsters } from '../monsters';
 import Header from './Header';
 import MiniCart from './MiniCart';
 
-import { incrementInCart, decrementInCart, initializeCart, removeFromCart, setInCart } from '../actions/index';
+import { incrementInCart, decrementInCart, removeFromCart, setInCart } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import PropTypes from "prop-types";
+
+import { Link } from 'react-router-dom';
 
 export class Cart extends React.Component {
 	constructor(props) {
@@ -18,13 +20,7 @@ export class Cart extends React.Component {
 	};
 
 	componentDidMount() {
-		try {
-			if (Object.keys(this.props.cart).length === 0) {
-				const cart = JSON.parse(localStorage.getItem('cart'));
-				this.props.initializeCart(cart);
-			}
-		} catch (err) {
-		}	
+	
 	}
 
 	addToCart = key => {
@@ -58,7 +54,10 @@ export class Cart extends React.Component {
 							/>
 					</div> 
 					<div className="cart-right-hand">
-						<h4>Total Amount {this.countCart()}</h4>
+						<h3 className="total-amount">Total ({this.countCart()} items)</h3>
+						<Link to="/checkout">
+							<button className="button-link">Checkout</button>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -68,7 +67,7 @@ export class Cart extends React.Component {
 
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({incrementInCart, initializeCart, decrementInCart, removeFromCart, setInCart}, dispatch);
+	return bindActionCreators({incrementInCart, decrementInCart, removeFromCart, setInCart}, dispatch);
 }
 
 function mapStateToProps({cart}) {

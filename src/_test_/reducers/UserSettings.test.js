@@ -3,14 +3,6 @@ import { SETTING_NAMING } from '../../actions/index.js';
 
 import {generateDefaultUserSettings} from '../UserSettingExample';
 
-it('console logs', () => {
-	console.log({ INITIALIZE_SETTINGS: 'INITIALIZE_SETTINGS',
-        INCREMENT_SETTINGS: 'INCREMENT_SETTINGS',
-        DECREMENT_SETTINGS: 'DECREMENT_SETTINGS',
-        SET_IN_SETTINGS: 'SET_IN_SETTINGS',
-        RESET_SETTINGS: 'RESET_SETTINGS',
-        SAVE_SETTINGS: 'SAVE_SETTINGS' });
-});
 var userSettings = {
 	'four': {}
 };

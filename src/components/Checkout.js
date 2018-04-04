@@ -2,7 +2,7 @@ import React from 'react';
 import { monsters } from '../monsters';
 import Header from './Header';
 
-import {initializeCart, initializeUserSettings } from '../actions/index';
+import {initializeCart } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -20,9 +20,9 @@ export class Checkout extends React.Component {
 	};
 
 	componentDidMount() {
-		this.configureInitialSettings(this.props);
+		this.generateRequiredInformation();	
 	}
-
+	/*
 	componentDidUpdate() {
 		if (JSON.stringify(this.props.cart) !== JSON.stringify({}) &&
 			JSON.stringify(this.props.userSettings) !== JSON.stringify({})) {
@@ -48,7 +48,7 @@ export class Checkout extends React.Component {
 			//cart was empty, need better handling here;
 		}
 	}
-
+	*/
 	generateRequiredInformation = () => {
 		let cart = this.props.cart;
 		let userSettings = this.props.userSettings;
@@ -61,12 +61,14 @@ export class Checkout extends React.Component {
 				return delete cart[e];
 			} else {
 				//Add in user totals here for calculating if they already have the monster
-				if (monsters[e].currentStars <= 3) {
-					requiredMonsters[e] = requiredMonsters[e] + cart[e] - userSettings.three[e] || cart[e] - userSettings.three[e];
-					if (requiredMonsters[e] <= 0) {
+				//
+				if (monsters[e].currentStars === 5) {
+					let currentlyRequired = monsters[e].requires[3];
+					let currentNeeded = cart[e] - userSettings.three[currentlyRequired];
+					requiredMonsters[currentlyRequired] = requiredMonsters[currentNeeded] + cart[e] - userSettings.three[currentlyRequired] || cart[e] - userSettings.three[currentlyRequired];
+					if (requiredMonsters[currentlyRequired] <= 0) {
 						delete requiredMonsters[e];
 					}
-					return delete cart[e];
 				} else if (monsters[e].currentStars === 4) {
 					let currentNeeded = cart[e] - userSettings.four[e];
 					removedFromCart[e] = userSettings.four[e];
@@ -262,8 +264,8 @@ export class Checkout extends React.Component {
 					}
 					</ul>
 
-					<button className="button" onClick={this.handleButton}>Ignore 5 stars in cart</button>
 					<h4 className="table-title">Here is what you need to awaken your cart</h4>
+					<button className="button remove-5-star-button" onClick={this.handleButton}>Click Here To Remove 5 Stars From Essence</button>
 					{totalEssenceInCart}
 				</div>
 			</div>
@@ -275,7 +277,7 @@ export class Checkout extends React.Component {
 
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({initializeUserSettings, initializeCart}, dispatch);
+	return bindActionCreators({initializeCart}, dispatch);
 }
 
 function mapStateToProps(state) {
@@ -288,7 +290,6 @@ function mapStateToProps(state) {
 Checkout.propTypes = {
 	cart: PropTypes.object.isRequired,
 	userSettings: PropTypes.object.isRequired,
-	initializeUserSettings: PropTypes.func.isRequired,
 	initializeCart: PropTypes.func.isRequired
 };
 

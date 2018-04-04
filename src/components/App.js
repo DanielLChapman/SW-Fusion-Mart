@@ -3,7 +3,7 @@ import { monsters } from '../monsters';
 import Monster from './Monster';
 import Header from './Header';
 
-import { initializeCart, incrementInCart } from '../actions/index';
+import { incrementInCart } from '../actions/index';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -25,13 +25,6 @@ export class App extends React.Component {
 	};
 
 	componentWillMount() {
-		try {
-			if (Object.keys(this.props.cart).length === 0) {
-				const cart = JSON.parse(localStorage.getItem('cart'));
-				this.props.initializeCart(cart);
-			}
-		} catch (err) {
-		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -76,7 +69,7 @@ export class App extends React.Component {
 };
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({initializeCart, incrementInCart}, dispatch);
+	return bindActionCreators({incrementInCart}, dispatch);
 }
 
 function mapStateToProps({cart}) {
@@ -86,7 +79,6 @@ function mapStateToProps({cart}) {
 
 App.propTypes = {
 	cart: PropTypes.object.isRequired,
-	initializeCart: PropTypes.func.isRequired,
 	incrementInCart: PropTypes.func.isRequired
 };
 

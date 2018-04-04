@@ -9,21 +9,6 @@ const userSettings = (state = {}, action) => {
 		type = null;
 
 	switch(action.type) {
-		case SETTING_NAMING.INITIALIZE_SETTINGS:
-			userSettings = action.payload;
-			if (Object.keys(userSettings).length === 0 || Object.keys(userSettings.four).length === 0 ) {
-				userSettings = generateDefaultUserSettings();
-
-				Object.keys(monsters).forEach((e) => {
-					if (monsters[e].currentStars === 4) {
-						userSettings['four'][e] = 0;
-					} else if (monsters[e].currentStars <= 3) {
-						userSettings['three'][e] = 0;
-					}
-				});
-			}
-			localStorage.setItem('userSettings', JSON.stringify(userSettings));
-			return {...userSettings};
 		case SETTING_NAMING.INCREMENT_SETTINGS:
 			userSettings = state;
 			identifier = action.payload.identifier;
@@ -109,7 +94,21 @@ const userSettings = (state = {}, action) => {
 
 			return {...userSettings};
 		default: 
-			userSettings = generateDefaultUserSettings();
+			userSettings = localStorage.getItem('userSettings');
+			if (!userSettings || Object.keys(JSON.parse(userSettings).four).length === 0) {
+				userSettings = generateDefaultUserSettings();
+				Object.keys(monsters).forEach((e) => {
+					if (monsters[e].currentStars === 4) {
+						userSettings['four'][e] = 0;
+					} else if (monsters[e].currentStars <= 3) {
+						userSettings['three'][e] = 0;
+					}
+				});
+			
+			} else {
+				userSettings = JSON.parse(userSettings);
+			}
+
 			return {...userSettings};
 	}
 }

@@ -14,7 +14,7 @@ const store = createStore(rootReducer)
 
 var props, enzymeWrapper, wrapper;
 
-describe('Checkout Component', () => {
+describe('User Setting Component', () => {
 	beforeEach(function() {
 		props = {
 			userSettings: {},
@@ -57,7 +57,7 @@ describe('Checkout Component', () => {
 		expect(wrapper.find('h3').length).toBe(1);
 	});
 	it ('does have instruction setting in h2', () => {
-		expect(wrapper.find('h3').length).toBe(3);
+		expect(wrapper.find('h2').length).toBe(3);
 	});
 	it ('does have 3 tables', () => {
 		expect(wrapper.find('table').length).toBe(3);
