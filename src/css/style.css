@@ -218,14 +218,114 @@ html {
 body {
   overflow-y: auto;
 }
-nav {
+.information {
+  text-align: center;
+  width: 50%;
+  position: relative;
+  margin: 0 auto;
+  font-size: 14px;
+  margin-top: 15px;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 400px) {
+  .information {
+    margin-top: 65px;
+  }
+}
+.navigation {
+  position: relative;
+  height: 100%;
+}
+.navigation .mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  padding: 20px 50px 20px 50px;
+  font-size: 30px;
+  cursor: pointer;
+  background: #fff;
+  color: #2dc22d;
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+@media screen and (max-width: 746px) {
+  .navigation .mobile-menu-toggle {
+    display: block;
+  }
+}
+@media screen and (max-width: 586px) {
+  .navigation .mobile-menu-toggle {
+    -webkit-box-shadow: 0 0 5px #000;
+            box-shadow: 0 0 5px #000;
+  }
+}
+.navigation .mobile-menu-toggle-close {
+  display: none;
+  z-index: 5;
+  font-size: 23px;
+  position: fixed;
+  top: 0;
+  left: 130px;
+  cursor: pointer;
+  color: rgba(0,0,0,0.7);
+  background: #fff;
+}
+.navigation #toggle {
+  width: 100px;
+  height: 50px;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50px;
+}
+.navigation input#toggle:checked {
+  position: relative;
+  z-index: 4;
+}
+.navigation input#toggle:checked ~ nav {
+  display: block;
+}
+.navigation input#toggle:checked ~ .mobile-menu-toggle-close {
+  display: block;
+}
+.navigation nav {
   width: 155px;
   height: 100%;
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
   background: #f7f7f7;
+  z-index: 3;
   text-align: left !important;
+}
+.navigation nav ul li {
+  font-size: 13px;
+  position: relative;
+  left: 0px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.navigation nav ul li a {
+  text-decoration: none;
+  color: #000;
+}
+.navigation nav ul .title-li {
+  margin-bottom: 150px;
+  width: 200px;
+  font-size: 14px;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  margin-top: 120px;
+  left: -23px;
+}
+@media screen and (max-width: 746px) {
+  .navigation nav {
+    display: none;
+  }
 }
 .main-monster-display {
   width: calc(100% - 455px);
@@ -238,6 +338,11 @@ nav {
 .main-monster-display ul li {
   display: inline-block;
   width: 250px;
+}
+@media screen and (max-width: 746px) {
+  .main-monster-display {
+    width: 300px;
+  }
 }
 .mini-cart-display {
   width: 300px;
@@ -294,24 +399,29 @@ nav {
   margin: 0 auto;
   padding: 0;
   background: #fff;
-  border: 1px solid #000;
-  border-top: 1px solid #fff;
   height: 75px;
   position: relative;
   top: 50%;
+  border: 1px solid transparent;
 }
 .to-open-mini-cart {
   position: fixed;
   z-index: 2;
   right: 0;
   top: 0;
-  border: 1px solid #000;
   padding: 20px 50px 20px 50px;
   font-size: 30px;
   cursor: pointer;
   color: #2dc22d;
+  background: #fff;
   -webkit-transition: 1s;
   transition: 1s;
+}
+@media screen and (max-width: 586px) {
+  .to-open-mini-cart {
+    -webkit-box-shadow: 0 0 5px #000;
+            box-shadow: 0 0 5px #000;
+  }
 }
 .monster {
   width: 24%;
@@ -343,10 +453,14 @@ nav {
 }
 .settings-page,
 .checkout-display {
-  width: calc(100% - 455px);
   margin: 0 auto;
   text-align: center;
   padding-bottom: 100px;
+  width: calc(100% - 155px);
+  right: 0;
+  left: 80px;
+  z-index: 1;
+  position: relative;
 }
 .settings-page h3,
 .checkout-display h3 {
@@ -393,6 +507,27 @@ nav {
   margin: 0px 10px 0px 10px;
   text-align: center;
 }
+@media screen and (max-width: 850px) {
+  .settings-page table,
+  .checkout-display table {
+    padding: 0;
+    width: 400px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+  .settings-page table th,
+  .checkout-display table th {
+    padding: 2px;
+  }
+  .settings-page table td,
+  .checkout-display table td {
+    padding: 2px;
+  }
+  .settings-page table input,
+  .checkout-display table input {
+    width: 50px;
+  }
+}
 .settings-page .settings-button,
 .checkout-display .settings-button,
 .settings-page .remove-5-star-button,
@@ -405,10 +540,26 @@ nav {
   border: 1px solid #000;
   border-top: 1px solid transparent;
 }
+@media screen and (max-width: 763px) {
+  .settings-page .settings-button,
+  .checkout-display .settings-button,
+  .settings-page .remove-5-star-button,
+  .checkout-display .remove-5-star-button {
+    border-top: 1px solid #000;
+  }
+}
 .settings-page .remove-5-star-button,
 .checkout-display .remove-5-star-button {
   border-top: 1px solid #000;
   margin-bottom: 15px;
+}
+@media screen and (max-width: 586px) {
+  .settings-page .remove-5-star-button,
+  .checkout-display .remove-5-star-button {
+    width: 95%;
+    font-size: 14px;
+    position: relative;
+  }
 }
 .settings-page .cart-table,
 .checkout-display .cart-table {
@@ -432,13 +583,41 @@ nav {
 .settings-page .cart-table input,
 .checkout-display .cart-table input {
   width: 70px;
-  padding-left: 10px;
-  margin: 0px 10px 0px 10px;
+  padding-left: 5px;
+  margin: 0px 5px 0px 5px;
   text-align: center;
 }
 .settings-page .cart-table .mini-cart-td,
 .checkout-display .cart-table .mini-cart-td {
   padding-left: 16px;
+}
+@media screen and (max-width: 746px) {
+  .settings-page,
+  .checkout-display {
+    width: 100%;
+    left: 0;
+  }
+  .settings-page h3,
+  .checkout-display h3 {
+    width: 95%;
+    left: 2.5%;
+    font-size: 1.4rem;
+  }
+  .settings-page h2,
+  .checkout-display h2 {
+    font-size: 1.6rem;
+    margin-top: 20px;
+  }
+  .settings-page .settings-button,
+  .checkout-display .settings-button {
+    margin-top: 80px;
+  }
+}
+@media screen and (max-width: 660px) {
+  .settings-page .content,
+  .checkout-display .content {
+    margin-top: 85px;
+  }
 }
 .cart-app-display {
   width: calc(100% - 305px);
@@ -474,6 +653,7 @@ nav {
   right: 25px;
   text-align: center;
   position: fixed;
+  padding-bottom: 25px;
 }
 .cart-app-display .cart-section {
   display: none;
@@ -517,6 +697,51 @@ nav {
   padding-left: 10px;
   margin: 0px 10px 0px 10px;
   text-align: center;
+}
+@media screen and (max-width: 1400px) {
+  .cart-app-display {
+    width: calc(100% - 175px);
+  }
+}
+@media screen and (max-width: 1123px) {
+  .cart-app-display table {
+    width: 500px;
+    left: 25px;
+    margin: initial;
+    margin-top: 30px;
+  }
+}
+@media screen and (max-width: 963px) {
+  .cart-app-display {
+    width: 100%;
+    left: 155px;
+    position: relative;
+  }
+  .cart-app-display .cart-right-hand {
+    width: calc(100% - 155px);
+    right: 0;
+    background: #fff;
+  }
+  .cart-app-display table {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 150px;
+    overflow-x: auto;
+  }
+  .cart-app-display .cart-display {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 746px) {
+  .cart-app-display {
+    left: 0;
+    width: 100%;
+    padding-right: 0;
+  }
+  .cart-app-display .cart-right-hand {
+    width: 100%;
+    right: 0;
+  }
 }
 .remove {
   color: #d12028 !important;

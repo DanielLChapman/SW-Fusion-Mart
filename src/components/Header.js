@@ -38,8 +38,8 @@ class Header extends React.Component {
 	render() {
 		let tagInfo = (
 			<Fragment>
-				<h5 className="information" style={{textAlign: 'center', width: '600px', position: 'relative', margin: '0 auto'}}>
-					If you add a 5 star fusion, we automatically will add the 4 stars to your cart. 
+				<h5 className="information">
+					NOTICE: If you add a 5 star fusion, we automatically will add the 4 stars to your cart. 
 					If you already have some of the 4 stars they will automatically be deducted from your cart if you have added them to your settings.
 				</h5>
 			</Fragment>
@@ -53,28 +53,33 @@ class Header extends React.Component {
 		return (
 			<header className="left">
 				{tagInfo}
-				<nav>
-					<ul>
-						<li>
-							Summoners War Fusion Mart
-						</li>
-						<li>
-							<Link to="/">
-								Home
-							</Link>
-						</li>
-						<li>
-							<Link to="/cart">
-								Cart
-							</Link>
-						</li>
-						<li>
-							<Link to="/settings">
-								Settings
-							</Link>
-						</li>
-					</ul>
-				</nav>
+				<div className="navigation">
+					<input type="checkbox" id="toggle" />  
+					<label htmlFor="toggle" className="mobile-menu-toggle"><i className="fas fa-bars"></i></label>
+					<label htmlFor="toggle" className="mobile-menu-toggle-close"><i className="fas fa-times"></i></label>
+					<nav>
+						<ul>
+							<li className="title-li">
+								Summoners War Fusion Mart
+							</li>
+							<li>
+								<Link to="/">
+									Home
+								</Link>
+							</li>
+							<li>
+								<Link to="/cart">
+									Cart
+								</Link>
+							</li>
+							<li>
+								<Link to="/settings">
+									Settings
+								</Link>
+							</li>
+						</ul>
+					</nav>
+				</div>
 				<section className="cart-section">
 					<div className="mini-cart-display" style={this.state.miniCartDisplay}>
 						<button className="hide-cart" onClick={() => {this.alterMiniCart('hide')}}> &gt; &gt; &gt; </button>

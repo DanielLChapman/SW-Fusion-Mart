@@ -13,15 +13,101 @@ html {
 body {
 	overflow-y auto;
 }
-nav {
-	width: 155px;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background: #f7f7f7;
-	text-align: left !important;
+.information {
+	text-align: center;
+	width: 50%;
+	position: relative;
+	margin: 0 auto;
+	font-size: 14px;
+	margin-top: 15px;
+	color: rgba(0,0,0,.6);
+	margin-bottom: 10px;
+	@media screen and (max-width: 400px) {
+		margin-top: 65px;
+	}
 }
+.navigation 
+	position: relative;
+	height: 100%;
+	.mobile-menu-toggle 
+		display: none;
+		position: fixed;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		padding: 20px 50px 20px 50px;
+		font-size: 30px;
+		cursor: pointer;
+		background: white;
+		color: green;
+		transition: 1s;
+		@media screen and (max-width: 746px)
+			display: block;
+		@media screen and (max-width: 586px)
+			box-shadow: 0 0 5px #000;
+
+	.mobile-menu-toggle-close
+		display: none;
+		z-index: 5;
+		font-size: 23px;
+		position: fixed;
+		top: 0;
+		left: 130px;
+		cursor: pointer;
+		color: rgba(0,0,0,.7);
+		background: white;
+	#toggle 
+		width: 100px;
+		height: 50px;
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 50px;
+	
+	input#toggle:checked 
+		position: relative;
+		z-index: 4;
+	
+	input#toggle:checked ~ nav 
+		display: block;
+	
+	input#toggle:checked ~ .mobile-menu-toggle-close 
+		display: block;
+
+	
+	nav 
+		width: 155px;
+		height: 100%;
+		overflow-y: auto;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: #f7f7f7;
+		z-index: 3;
+		text-align: left !important;
+		ul 
+			li 
+				font-size: 13px;
+				position: relative;
+				left: 0px;
+				margin-bottom: 20px;
+				text-align: center;
+				a 
+					text-decoration: none;
+					color: #000;
+				
+			
+			.title-li 
+				margin-bottom: 150px;
+				width: 200px;
+				font-size: 14px;
+				transform: rotate(-90deg);
+				margin-top: 120px;
+				left: -23px;
+			
+		
+		@media screen and (max-width: 746px) 
+			display: none;
 
 .main-monster-display {
 	width: calc(100% - 455px);
@@ -36,6 +122,9 @@ nav {
 			width: 250px;
 
 		}
+	}
+	@media screen and (max-width: 746px) {
+		width: 300px;
 	}
 }
 
@@ -87,24 +176,25 @@ nav {
 	margin: 0 auto;
 	padding: 0;
 	background: white;
-	border:	1px solid black;
-	border-top: 1px solid white;
 	height: 75px;
 	position: relative;
 	top: 50%;
+	border:1px solid transparent;
 }
-.to-open-mini-cart {
+.to-open-mini-cart
 	position: fixed;
 	z-index: 2;
 	right: 0;
 	top: 0;
-	border:1px solid black;
 	padding: 20px 50px 20px 50px;
 	font-size: 30px;
 	cursor: pointer;
 	color: green;
+	background: white;
+	@media screen and (max-width: 586px) 
+		box-shadow: 0 0 5px #000;
 	transition: 1s;
-}
+
 
 .monster 
 	width: 24%;
@@ -133,10 +223,15 @@ nav {
 		}
 
 .settings-page, .checkout-display
-	width: calc(100% - 455px);
 	margin: 0 auto;
 	text-align: center;
 	padding-bottom: 100px;
+	width: calc(100% - 155px);
+	right: 0;
+	left: 80px;
+	z-index: 1;
+	position: relative;
+
 	h3 
 		font-size: 1.7rem;
 		text-align: center;
@@ -164,6 +259,17 @@ nav {
 			padding-left: 10px;
 			margin: 0px 10px 0px 10px;
 			text-align: center;
+		@media screen and (max-width: 850px) 
+			padding: 0;
+			width: 400px;
+			font-size: 14px;
+			overflow-x: auto;
+			th
+				padding: 2px;
+			td
+				padding: 2px;
+			input
+				width: 50px;
 	.settings-button, .remove-5-star-button
 		position: relative;
 		height: 50px;
@@ -172,9 +278,16 @@ nav {
 		background: white;
 		border: 1px solid #000;
 		border-top: 1px solid transparent;
+		@media screen and (max-width: 763px) {
+			border-top: 1px solid #000;
+		}
 	.remove-5-star-button 
 		border-top:1px solid #000;
 		margin-bottom: 15px;
+		@media screen and (max-width: 586px) 
+			width: 95%;
+			font-size: 14px;
+			position: relative;
 	.cart-table 
 		border-collapse: collapse;
 		width: 100%;
@@ -188,11 +301,26 @@ nav {
 			background-color: lightgreen;
 		input
 			width: 70px;
-			padding-left: 10px;
-			margin: 0px 10px 0px 10px;
+			padding-left: 5px;
+			margin: 0px 5px 0px 5px;
 			text-align: center;
 		.mini-cart-td 
 			padding-left: 16px;
+	@media screen and (max-width: 746px) 
+		width: 100%;
+		left: 0;
+		h3 
+			width: 95%;
+			left: 2.5%;
+			font-size: 1.4rem;
+		h2 
+			font-size: 1.6rem;
+			margin-top: 20px;
+		.settings-button 
+			margin-top: 80px;
+	@media screen and (max-width: 660px)
+		.content
+			margin-top: 85px;
 
 .cart-app-display
 	width: calc(100% - 305px);
@@ -222,6 +350,7 @@ nav {
 		right: 25px;
 		text-align: center;
 		position: fixed;
+		padding-bottom: 25px;
 	.cart-section 
 		display: none;
 	.button-link
@@ -254,9 +383,39 @@ nav {
 			padding-left: 10px;
 			margin: 0px 10px 0px 10px;
 			text-align: center;
-	
-		
 
+	@media screen and (max-width: 1400px) 
+		width: calc(100% - 175px);
+	@media screen and (max-width: 1123px)
+		table 
+			width: 500px;	
+			left: 25px;
+			margin: initial;
+			margin-top: 30px;
+	@media screen and (max-width: 963px) 
+		width: 100%;
+		left: 155px;
+		position: relative;
+		.cart-right-hand
+			width: calc(100% - 155px);
+			right: 0;
+			background: white;
+		table
+			width: 400px;
+			margin: 0 auto;
+			margin-top: 150px;
+			overflow-x: auto;
+		.cart-display 
+			width: 100%;
+	@media screen and (max-width: 746px) 
+		left: 0;
+		width: 100%;
+		padding-right: 0;
+		.cart-right-hand
+			width: 100%;
+			right: 0;
+
+	
 
 .remove 
 	color: red !important;
